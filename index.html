@@ -8,18 +8,20 @@
 <link rel="icon" type="image/png" href="avatar.png">
 <link rel="apple-touch-icon" href="avatar.png">
 <style>
+
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&display=swap");
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#03040a;min-height:100vh}
 body:before{content:"";position:fixed;inset:0;z-index:-1;background:
 radial-gradient(1px 1px at 10% 20%,#fff8,transparent),radial-gradient(1px 1px at 30% 70%,#fff6,transparent),radial-gradient(1.5px 1.5px at 55% 15%,#fff9,transparent),radial-gradient(1px 1px at 75% 45%,#fff5,transparent),radial-gradient(1px 1px at 90% 85%,#fff7,transparent),radial-gradient(1px 1px at 45% 90%,#fff5,transparent),radial-gradient(1.5px 1.5px at 85% 10%,#fff8,transparent),radial-gradient(1px 1px at 20% 50%,#fff4,transparent),radial-gradient(1px 1px at 65% 60%,#fff6,transparent),
 radial-gradient(ellipse 60% 40% at 80% 20%,#1d1a4a55,transparent),radial-gradient(ellipse 50% 40% at 15% 85%,#3a1a2a44,transparent),#03040a;background-size:300px 300px,250px 250px,400px 400px,350px 350px,280px 280px,320px 320px,450px 450px,220px 220px,380px 380px,100% 100%,100% 100%,100% 100%}
-.side{position:fixed;left:0;top:0;bottom:0;width:104px;padding:12px 10px;display:flex;flex-direction:column;gap:10px;background:#05060ccc;border-right:1px solid #ffffff10;z-index:5;overflow-y:auto}
-.side-logo{display:flex;align-items:center;justify-content:center;margin:2px 0 6px;text-decoration:none;flex:0 0 auto}
-.side-logo img{width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(40,100,255,.35))}
-.nb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;aspect-ratio:1;border-radius:12px;background:#11131c;border:1px solid #ffffff14;color:#cfd3dc;text-decoration:none;font-size:10px;font-weight:700;letter-spacing:.5px}
-.nb svg{width:26px;height:26px;fill:none;stroke:#ff8a1f;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.nb:hover{border-color:#ff8a1f88}.nb.act{background:#1d1f2b;border-color:#ff8a1f;color:#fff}.nb.off{opacity:.45;cursor:default}
+.side{position:fixed;left:0;top:0;bottom:0;width:104px;padding:8px 8px;display:flex;flex-direction:column;gap:6px;background:#05060ccc;border-right:1px solid #ffffff10;z-index:5;overflow-y:auto}
+.side-logo{display:flex;align-items:center;justify-content:center;margin:0 0 4px;text-decoration:none;flex:0 0 auto}
+.side-logo img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(40,100,255,.35))}
+.nb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:70px;padding:6px 4px;border-radius:12px;background:#11131c;border:1px solid #ffffff14;color:#cfd3dc;text-decoration:none;font-size:8.5px;font-weight:700;letter-spacing:.4px;text-align:center;line-height:1.15}
+.nb .flg{font-size:20px;line-height:1;filter:drop-shadow(0 0 4px rgba(255,138,31,.25))}
+.nb svg{width:22px;height:22px;fill:none;stroke:#ff8a1f;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nb:hover{border-color:#ff8a1f88}.nb.act{background:#1d1f2b;border-color:#ff8a1f;color:#fff}
 main{margin-left:104px;padding:14px 18px 40px}
 .brand{position:relative;display:flex;align-items:center;min-height:168px;padding:10px 28px 10px 6px;border-radius:16px;border:1px solid #ffffff16;overflow:visible;z-index:2;margin:0 0 6px}
 .brand-bg{position:absolute;inset:0;border-radius:16px;overflow:hidden;z-index:0;background:url("banner.jpg") center/cover no-repeat}
@@ -52,9 +54,10 @@ main{margin-left:104px;padding:14px 18px 40px}
 .st-chg.down{color:#f23645}
 .st-chg svg{width:11px;height:11px;flex:0 0 11px}
 .st-sub{font-size:11px;color:#8a8f9c;margin-top:2px}
+.st-delay{font-size:9px;color:#8a8f9c;font-weight:600;letter-spacing:0;margin-top:1px;opacity:.85}
 .tape{position:relative;border-radius:12px;background:#0d0f17e6;border:1px solid #ffffff12;overflow:hidden;margin-top:14px;z-index:1}
 .tape:after{content:"";position:absolute;top:0;right:0;bottom:0;width:44px;background:#0d0f17;pointer-events:auto;z-index:3}
-.cal{position:relative;background:#12141dcc;border:1px solid #ffffff12;border-radius:12px;padding:6px;overflow:hidden}
+.cal{position:relative;background:#12141dcc;border:1px solid #ffffff12;border-radius:12px;padding:6px;overflow:hidden;min-height:600px}
 .cal:after{content:"";position:absolute;right:0;bottom:0;width:72px;height:38px;background:#131722;pointer-events:auto;z-index:3}
 .note{color:#8a8f9c;font-size:12px;text-align:center;margin-top:24px;line-height:1.55;max-width:920px;margin-left:auto;margin-right:auto}
 .sec-note{color:#8a8f9c;font-size:11.5px;line-height:1.5;margin:-2px 0 12px;text-align:center}
@@ -68,17 +71,20 @@ main{margin-left:104px;padding:14px 18px 40px}
 .heat-hint{color:#8a8f9c;font-size:11.5px;margin:0 0 10px}
 .heat{position:relative;border-radius:12px;overflow:hidden;background:#0d0f17;height:550px;border:1px solid #ffffff12}
 .heat:after{content:"";position:absolute;right:0;bottom:0;width:130px;height:46px;background:#0d0f17;pointer-events:auto;z-index:3}
-#heat-widget,.heat .tradingview-widget-container,.heat .tradingview-widget-container__widget{position:absolute;inset:0;width:100%;height:100%}
-.heat iframe{width:100%!important;height:100%!important}
+#heat-widget,.heat .tradingview-widget-container,.heat .tradingview-widget-container__widget,.cal-mount,.cal .tradingview-widget-container{position:absolute;inset:0;width:100%;height:100%}
+.heat iframe,.cal iframe{width:100%!important;height:100%!important}
+.page{display:none}.page.on{display:block}
+.meme-totals{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:12px}
 @media(max-width:1200px){
   .grid-sec{grid-template-columns:repeat(6,minmax(0,1fr))}
   .brand-title{font-size:36px}
 }
 @media(max-width:700px){
-  .side{top:auto;width:auto;right:0;flex-direction:row;padding:6px;gap:6px;overflow-x:auto;align-items:center}
+  .side{top:auto;bottom:0;width:auto;right:0;left:0;flex-direction:row;padding:6px;gap:6px;overflow-x:auto;overflow-y:hidden;align-items:center;border-right:none;border-top:1px solid #ffffff10}
   .side-logo{margin:0;min-width:44px}
   .side-logo img{width:40px;height:40px}
-  .nb{min-width:64px;font-size:8px}.nb svg{width:20px;height:20px}
+  .nb{min-width:76px;flex:0 0 auto;min-height:58px;font-size:8px;padding:4px}
+  .nb .flg{font-size:16px}.nb svg{width:18px;height:18px}
   main{margin-left:0;padding:10px 10px 90px}
   .brand{min-height:108px;padding:6px 14px 6px 2px;margin-bottom:2px}
   .brand-av{width:112px;height:112px;margin:-16px 4px -12px 0}
@@ -97,13 +103,15 @@ main{margin-left:104px;padding:14px 18px 40px}
 </head>
 <body>
 <nav class="side">
-<a class="side-logo" href="#top" title="KISHA INU"><img src="avatar.png" alt="KISHA INU"></a>
-<a class="nb act" href="#top"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>DASHBOARD</span></a>
-<a class="nb" href="#crypto"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 7.5v9M9.5 8h4a2 2 0 010 4h-4m0 0h4.5a2 2 0 010 4H9.5M11 6v2m0 8v2"/></svg><span>CRYPTO</span></a>
-<a class="nb" href="#indici"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/><path d="M15 6h4v4"/></svg><span>STOCKS</span></a>
-<a class="nb" href="#calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>CALENDAR</span></a>
-<a class="nb off" title="În curând"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M3 13h18"/></svg><span>PORTOFOLIU</span></a>
-<a class="nb off" title="În curând"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>UPDATE</span></a>
+<a class="side-logo" href="#america" title="KISHA INU"><img src="avatar.png" alt="KISHA INU"></a>
+<a class="nb act" href="#america" data-page="america"><span class="flg" aria-hidden="true">🇺🇸</span><span>AMERICA</span></a>
+<a class="nb" href="#romania" data-page="romania"><span class="flg" aria-hidden="true">🇷🇴</span><span>ROMANIA</span></a>
+<a class="nb" href="#china" data-page="china"><span class="flg" aria-hidden="true">🇨🇳</span><span>CHINA</span></a>
+<a class="nb" href="#japonia" data-page="japonia"><span class="flg" aria-hidden="true">🇯🇵</span><span>JAPONIA</span></a>
+<a class="nb" href="#germania" data-page="germania"><span class="flg" aria-hidden="true">🇩🇪</span><span>GERMANIA</span></a>
+<a class="nb" href="#marea-britanie" data-page="britanie"><span class="flg" aria-hidden="true">🇬🇧</span><span>MAREA BRITANIE</span></a>
+<a class="nb" href="#crypto" data-page="crypto"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 7.5v9M9.5 8h4a2 2 0 010 4h-4m0 0h4.5a2 2 0 010 4H9.5M11 6v2m0 8v2"/></svg><span>CRYPTO</span></a>
+<a class="nb" href="#memes" data-page="memes"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M8 9C8 6 9.5 5 12 5s4 1 4 4M9.5 13.5h.01M14.5 13.5h.01M9 16c1 1.2 2 1.8 3 1.8S14 17.2 15 16"/></svg><span>MEMES</span></a>
 </nav>
 <main id="top">
 <header class="brand">
@@ -114,20 +122,7 @@ main{margin-left:104px;padding:14px 18px 40px}
     <div class="brand-sub">Market Dashboard</div>
   </div>
 </header>
-<div class="tape"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>{"symbols": [{"proName": "CAPITALCOM:DXY", "title": "DXY"}, {"proName": "CAPITALCOM:VIX", "title": "VIX"}, {"proName": "OANDA:NAS100USD", "title": "NAS100"}, {"proName": "OANDA:SPX500USD", "title": "S&P 500"}, {"proName": "OANDA:US30USD", "title": "YM / Dow"}, {"proName": "CAPITALCOM:RTY", "title": "RTY / Russell"}, {"proName": "FX:EURUSD", "title": "EUR/USD"}, {"proName": "FX:USDJPY", "title": "USD/JPY"}, {"proName": "FX:GBPUSD", "title": "GBP/USD"}, {"proName": "NASDAQ:TLT", "title": "TLT"}, {"proName": "PYTH:US02Y", "title": "US02Y"}, {"proName": "PYTH:US10Y", "title": "US10Y"}, {"proName": "OANDA:XAUUSD", "title": "Aur"}, {"proName": "OANDA:XAGUSD", "title": "Argint"}, {"proName": "TVC:USOIL", "title": "Petrol WTI"}, {"proName": "TVC:UKOIL", "title": "Brent"}, {"proName": "NASDAQ:IBIT", "title": "ETF BTC (IBIT)"}, {"proName": "NASDAQ:ETHA", "title": "ETF ETH (ETHA)"}, {"proName": "BITSTAMP:BTCUSD", "title": "BTC/USD"}, {"proName": "BITSTAMP:ETHUSD", "title": "ETH/USD"}, {"proName": "CRYPTOCAP:BTC.D", "title": "BTC.D"}, {"proName": "CRYPTOCAP:ETH.D", "title": "ETH.D"}, {"proName": "CRYPTOCAP:USDT.D", "title": "USDT.D"}, {"proName": "CRYPTOCAP:TOTAL3", "title": "TOTAL3"}], "showSymbolLogo": true, "isTransparent": true, "displayMode": "adaptive", "colorTheme": "dark", "locale": "ro"}</script></div></div>
-<section id="indici"><h2 class="bar">INDICI &amp; VOLATILITATE</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="TVC:DXY" data-name="DXY" data-kind="dxy"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:VIX" data-name="VIX" data-kind="vix"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NASDAQ:NDX" data-name="NAS100" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="SP:SPX" data-name="S&P 500" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="OANDA:US30USD" data-name="YM / Dow" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:RUT" data-name="RTY / Russell" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:BET" data-name="BET (BVB)" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section>
-<section id="sectoare"><h2 class="bar">SECTOARE</h2><div class="grid grid-sec"><div class="tile"><div class="st" data-src="fh" data-sym="XLE" data-name="Energy" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLK" data-name="Technology" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLV" data-name="Healthcare" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLC" data-name="Comms" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLF" data-name="Financials" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLY" data-name="Cyclical" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLB" data-name="Materials" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLP" data-name="Defensive" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLI" data-name="Industrials" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLRE" data-name="Real Estate" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLU" data-name="Utilities" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section>
-<section id="macro">
-<h2 class="bar">DATE IMPORTANTE</h2>
-<p class="sec-note">Date oficiale SUA, statice. Actualizat: 13 nov. 2026. Inflație YoY: ultima cifră oficială este din septembrie 2026 — BLS nu a publicat rata pe 12 luni pentru octombrie (lipsa CPI oct. 2025 din cauza shutdown-ului). Șomaj și NFP: Employment Situation oct. 2026 (publicat 6 nov.). Dobândă: FOMC 28 oct. 2026 (interval 3,75–4,00%). Următoarea FOMC: 8–9 dec. 2026, anunț 21:00 ora României.</p>
-<div class="grid grid-macro" id="macro-grid"></div>
-</section>
-<section id="forex"><h2 class="bar">FOREX</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="FX:EURUSD" data-name="EUR/USD" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:USDJPY" data-name="USD/JPY" data-kind="fx3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:GBPUSD" data-name="GBP/USD" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section>
-<section id="oblig"><h2 class="bar">OBLIGAȚIUNI</h2><div class="grid"><div class="tile"><div class="st" data-src="fh" data-sym="TLT" data-name="TLT" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:US02Y" data-name="US02Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:US10Y" data-name="US10Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section>
-<section id="marfuri"><h2 class="bar">MĂRFURI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="OANDA:XAUUSD" data-name="Aur" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:SILVER" data-name="Argint" data-kind="px3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NYMEX:CL1!" data-name="Petrol WTI" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NYMEX:BZ1!" data-name="Brent" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section>
-<section id="etf"><h2 class="bar">ETF CRYPTO</h2><div class="grid"><div class="tile"><div class="st" data-src="fh" data-sym="IBIT" data-name="ETF BTC (IBIT)" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="ETHA" data-name="ETF ETH (ETHA)" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section>
-<section id="crypto"><h2 class="bar">CRYPTO</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="BITSTAMP:BTCUSD" data-name="BTC/USD" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BITSTAMP:ETHUSD" data-name="ETH/USD" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BINANCE:ETHBTC" data-name="ETH/BTC" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:BTC.D" data-name="BTC.D" data-kind="dom"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:ETH.D" data-name="ETH.D" data-kind="dom"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:USDT.D" data-name="USDT.D" data-kind="dom"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:TOTAL" data-name="Total mcap" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:TOTAL2" data-name="Altcoin mcap" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:TOTAL3" data-name="TOTAL3" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="cg" data-sym="CG:VOLUME" data-name="Volum 24h" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="cg" data-sym="CG:ALTSEASON" data-name="Altcoin Season (30z)" data-kind="alts"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section>
-<section id="heatmap">
+<div class="page" id="page-america"><div class="tape"><div class="tape-mount"></div></div><section id="indici"><h2 class="bar">INDICI &amp; VOLATILITATE</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="TVC:DXY" data-name="DXY" data-kind="dxy"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:VIX" data-name="VIX" data-kind="vix"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NASDAQ:NDX" data-name="NAS100" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="SP:SPX" data-name="S&P 500" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="OANDA:US30USD" data-name="YM / Dow" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:RUT" data-name="RTY / Russell" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:BET" data-name="BET (BVB)" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div></div></section><section id="sectoare"><h2 class="bar">SECTOARE</h2><div class="grid grid-sec"><div class="tile"><div class="st" data-src="fh" data-sym="XLE" data-name="Energy" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLK" data-name="Technology" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLV" data-name="Healthcare" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLC" data-name="Comms" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLF" data-name="Financials" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLY" data-name="Cyclical" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLB" data-name="Materials" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLP" data-name="Defensive" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLI" data-name="Industrials" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLRE" data-name="Real Estate" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="XLU" data-name="Utilities" data-kind="pctonly"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="macro-us"><h2 class="bar">DATE IMPORTANTE</h2><p class="sec-note">Date oficiale SUA, statice. Actualizat: 13 nov. 2026. Inflație YoY: ultima cifră oficială este din septembrie 2026 — BLS nu a publicat rata pe 12 luni pentru octombrie (lipsa CPI oct. 2025 din cauza shutdown-ului).</p><div class="grid grid-macro" data-macro="macro-us"></div></section><section id="forex"><h2 class="bar">FOREX</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="FX:EURUSD" data-name="EUR/USD" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:USDJPY" data-name="USD/JPY" data-kind="fx3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:GBPUSD" data-name="GBP/USD" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="oblig"><h2 class="bar">OBLIGAȚIUNI</h2><div class="grid"><div class="tile"><div class="st" data-src="fh" data-sym="TLT" data-name="TLT" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:US02Y" data-name="US02Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:US10Y" data-name="US10Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="marfuri"><h2 class="bar">MĂRFURI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="OANDA:XAUUSD" data-name="Aur" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:SILVER" data-name="Argint" data-kind="px3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NYMEX:CL1!" data-name="Petrol WTI" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NYMEX:BZ1!" data-name="Brent" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="heatmap">
 <h2 class="bar">HEATMAP S&amp;P 500</h2>
 <div class="heat-ctrl">
   <div class="seg" id="heat-period">
@@ -139,49 +134,112 @@ main{margin-left:104px;padding:14px 18px 40px}
   <label class="heat-lab">Sector
     <select id="heat-sec">
       <option value="">Toate sectoarele</option>
-      <option>Energy</option>
-      <option>Materials</option>
-      <option>Industrials</option>
-      <option>Consumer Discretionary</option>
-      <option>Consumer Staples</option>
-      <option>Health Care</option>
-      <option>Financials</option>
-      <option>Information Technology</option>
-      <option>Communication Services</option>
-      <option>Utilities</option>
-      <option>Real Estate</option>
+      <option>Energy</option><option>Materials</option><option>Industrials</option>
+      <option>Consumer Discretionary</option><option>Consumer Staples</option>
+      <option>Health Care</option><option>Financials</option>
+      <option>Information Technology</option><option>Communication Services</option>
+      <option>Utilities</option><option>Real Estate</option>
     </select>
   </label>
 </div>
 <p class="heat-hint" id="heat-hint">Widgetul nu filtrează pe un singur sector. Faceți clic pe un sector în hartă pentru a mări; „Toate sectoarele” resetează vizualizarea.</p>
 <div class="heat" id="heat-box"><div id="heat-widget"></div></div>
 </section>
-<section id="calendar"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>{"colorTheme": "dark", "isTransparent": true, "width": "100%", "height": "600", "locale": "ro", "importanceFilter": "0,1", "countryFilter": "us,cn,jp,de,gb,ro,eu"}</script></div></div></section>
-<p class="note">Prețuri actualizate automat.
-Finnhub (live, sesiune SUA): TLT, IBIT, ETHA și cele 11 ETF-uri sectoriale SPDR.
-Scanner public TradingView: indici, forex, randamente, mărfuri și crypto (inclusiv ETH/BTC, TOTAL, TOTAL2, TOTAL3) — de regulă streaming; <strong>BET (BVB) este întârziat ~15 minute</strong>.
-Banda de tickere TradingView poate afișa TLT/IBIT/ETHA cu întârziere, chiar dacă plăcuțele de mai jos sunt live.
-Volumul total 24h: CoinGecko /global, la ~60s. Altcoin Season (30z): calcul propriu (ponderea din top 50 altcoins, fără BTC/stable/wrapped, care au bătut BTC pe 30 de zile) — nu este indicele clasic pe 90 de zile (API-ul gratuit CoinGecko nu oferă 90d).
-Date importante: valori oficiale statice, actualizat 13 nov. 2026 (vezi nota din secțiune). Heatmap S&amp;P 500: widget TradingView; perioada schimbă culoarea blocurilor, iar lista de sectoare resetează vizualizarea (zoom manual pe sector în hartă).</p>
+<section id="cal-us"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal" data-cal="us"><div class="cal-mount"></div></div></section><p class="note">Date importante: valori oficiale statice, actualizat 13 nov. 2026. Inflație YoY: ultima cifră oficială este din septembrie 2026 (BLS nu a publicat YoY octombrie). Sectoare, TLT: Finnhub live. Indici/forex/mărfuri: scanner TradingView. BET (BVB) este întârziat ~15 min. Heatmap S&amp;P 500: widget TradingView.</p></div><div class="page" id="page-romania"><div class="tape"><div class="tape-mount"></div></div><section id="ro-idx"><h2 class="bar">INDICI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="BVB:BET" data-name="BET" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:BETTR" data-name="BET-TR" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:BETPLUS" data-name="BET Plus" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div></div></section><section id="ro-stocks"><h2 class="bar">ACȚIUNI BVB</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="BVB:TLV" data-name="TLV" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:SNP" data-name="SNP" data-kind="px3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:H2O" data-name="H2O" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:SNG" data-name="SNG" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:BRD" data-name="BRD" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:TGN" data-name="TGN" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:EL" data-name="EL" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:DIGI" data-name="DIGI" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:ONE" data-name="ONE" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:M" data-name="M" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:SNN" data-name="SNN" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BVB:FP" data-name="FP" data-kind="px3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div></div></section><section id="ro-fx"><h2 class="bar">FOREX &amp; OBLIGAȚIUNI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="FX_IDC:EURRON" data-name="EUR/RON" data-kind="fx4"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX_IDC:USDRON" data-name="USD/RON" data-kind="fx4"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:RO10Y" data-name="RO10Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="macro-ro"><h2 class="bar">DATE IMPORTANTE</h2><p class="sec-note">Date oficiale INS / BNR, actualizat 13 nov. 2026.</p><div class="grid grid-macro" data-macro="macro-ro"></div></section><section id="cal-ro"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal" data-cal="ro"><div class="cal-mount"></div></div></section><p class="note">Indicii și acțiunile BVB sunt întârziate ~15 minute (flux public TradingView). EUR/RON, USD/RON și RO10Y sunt streaming. Macro: INS și BNR, actualizat 13 nov. 2026.</p></div><div class="page" id="page-china"><div class="tape"><div class="tape-mount"></div></div><section id="cn-idx"><h2 class="bar">INDICI &amp; VALUTE</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="SSE:000001" data-name="SSE Composite" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="SZSE:399001" data-name="Shenzhen Component" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="SSE:000300" data-name="CSI 300" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:HSI" data-name="Hang Seng" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="HSI:HSTECH" data-name="Hang Seng TECH" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="cn-fx"><h2 class="bar">FOREX, RANDAMENT &amp; MĂRFURI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="FX:USDCNH" data-name="USD/CNH" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:CN10Y" data-name="CN10Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="COMEX:HG1!" data-name="Cupru" data-kind="px3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 10 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="SGX:FEF1!" data-name="Iron ore" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 10 min</div></div></div></div></section><section id="cn-stk"><h2 class="bar">ACȚIUNI / ADR</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="NYSE:BABA" data-name="BABA" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NASDAQ:PDD" data-name="PDD" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NASDAQ:JD" data-name="JD" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="NASDAQ:BIDU" data-name="BIDU" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="HKEX:700" data-name="Tencent" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div></div></section><section id="macro-cn"><h2 class="bar">DATE IMPORTANTE</h2><p class="sec-note">Date oficiale NBS / PBoC, actualizat 13 nov. 2026.</p><div class="grid grid-macro" data-macro="macro-cn"></div></section><section id="cal-cn"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal" data-cal="cn"><div class="cal-mount"></div></div></section><p class="note">SSE Composite și CSI 300, ADR-urile SUA, Tencent (HK) și cuprul/iron ore pot fi întârziate 10–15 min. Shenzhen Component și Hang Seng sunt streaming. Macro: NBS / PBoC, actualizat 13 nov. 2026. LPR: ultima cifră oficială confirmată este din septembrie 2026. Șomajul urban oficial cel mai recent: septembrie.</p></div><div class="page" id="page-japonia"><div class="tape"><div class="tape-mount"></div></div><section id="jp-idx"><h2 class="bar">INDICI &amp; VALUTE</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="TVC:NI225" data-name="Nikkei 225" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TSE:TOPIX" data-name="TOPIX" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:USDJPY" data-name="USD/JPY" data-kind="fx3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:EURJPY" data-name="EUR/JPY" data-kind="fx3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:JP10Y" data-name="JP10Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="jp-stk"><h2 class="bar">ACȚIUNI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="TSE:7203" data-name="Toyota" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TSE:6758" data-name="Sony" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TSE:9984" data-name="SoftBank" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TSE:8306" data-name="MUFG" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TSE:6861" data-name="Keyence" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TSE:9983" data-name="Fast Retailing" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TSE:6501" data-name="Hitachi" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 20 min</div></div></div></div></section><section id="macro-jp"><h2 class="bar">DATE IMPORTANTE</h2><p class="sec-note">Date oficiale MIC / Cabinet Office / BoJ, actualizat 13 nov. 2026.</p><div class="grid grid-macro" data-macro="macro-jp"></div></section><section id="cal-jp"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal" data-cal="jp"><div class="cal-mount"></div></div></section><p class="note">Nikkei 225, USD/JPY, EUR/JPY și JP10Y sunt streaming. TOPIX și acțiunile TSE sunt întârziate ~20 min. Macro: MIC, Cabinet Office, BoJ, actualizat 13 nov. 2026. CPI și șomaj: septembrie; PIB: T2 (estimarea a doua). Tankan: sondaj septembrie.</p></div><div class="page" id="page-germania"><div class="tape"><div class="tape-mount"></div></div><section id="de-idx"><h2 class="bar">INDICI &amp; VALUTE</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="XETR:DAX" data-name="DAX" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:MDAX" data-name="MDAX" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:SX5E" data-name="Euro Stoxx 50" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:EURUSD" data-name="EUR/USD" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:DE10Y" data-name="Bund 10Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="de-stk"><h2 class="bar">ACȚIUNI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="XETR:SAP" data-name="SAP" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:SIE" data-name="Siemens" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:ALV" data-name="Allianz" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:DTE" data-name="Deutsche Telekom" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:MBG" data-name="Mercedes-Benz" data-kind="px3"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:BMW" data-name="BMW" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:BAS" data-name="BASF" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="XETR:ADS" data-name="adidas" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div></div></section><section id="macro-de"><h2 class="bar">DATE IMPORTANTE</h2><p class="sec-note">Date oficiale Destatis / Eurostat / BCE / ZEW / BA, actualizat 13 nov. 2026. Ifo: neverificat, afișat ca „—”.</p><div class="grid grid-macro" data-macro="macro-de"></div></section><section id="cal-de"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal" data-cal="de,eu"><div class="cal-mount"></div></div></section><p class="note">Euro Stoxx 50, EUR/USD și Bund 10Y sunt streaming. DAX, MDAX și acțiunile Xetra sunt întârziate ~15 min. Macro: Destatis, Eurostat, BCE, ZEW, BA, actualizat 13 nov. 2026. Ifo Business Climate este afișat ca „—” (pagina oficială ifo.de nu a putut fi verificată). Următoarea BCE: 17 dec. 2026.</p></div><div class="page" id="page-britanie"><div class="tape"><div class="tape-mount"></div></div><section id="uk-idx"><h2 class="bar">INDICI &amp; VALUTE</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="TVC:UKX" data-name="FTSE 100" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FTSE:MCX" data-name="FTSE 250" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div><div class="st-delay">întârziat 15 min</div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:GBPUSD" data-name="GBP/USD" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="FX:EURGBP" data-name="EUR/GBP" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="TVC:GB10Y" data-name="Gilt 10Y" data-kind="yield"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="uk-stk"><h2 class="bar">ACȚIUNI</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="LSE:SHEL" data-name="Shell" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="LSE:AZN" data-name="AstraZeneca" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="LSE:HSBA" data-name="HSBC" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="LSE:BP." data-name="BP" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="LSE:ULVR" data-name="Unilever" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="LSE:GSK" data-name="GSK" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="LSE:DGE" data-name="Diageo" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="LSE:RIO" data-name="Rio Tinto" data-kind="idx"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="macro-uk"><h2 class="bar">DATE IMPORTANTE</h2><p class="sec-note">Date oficiale ONS / Bank of England, actualizat 13 nov. 2026.</p><div class="grid grid-macro" data-macro="macro-uk"></div></section><section id="cal-uk"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal" data-cal="gb"><div class="cal-mount"></div></div></section><p class="note">FTSE 100, GBP/USD, EUR/GBP, Gilt 10Y și acțiunile LSE sunt streaming. FTSE 250 (FTSE:MCX) este întârziat ~15 min. Macro: ONS și Bank of England, actualizat 13 nov. 2026. CPI: septembrie (octombrie se publică pe 18 nov.).</p></div><div class="page" id="page-crypto"><div class="tape"><div class="tape-mount"></div></div><section id="etf"><h2 class="bar">ETF CRYPTO</h2><div class="grid"><div class="tile"><div class="st" data-src="fh" data-sym="IBIT" data-name="ETF BTC (IBIT)" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="fh" data-sym="ETHA" data-name="ETF ETH (ETHA)" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="crypto-core"><h2 class="bar">CRYPTO</h2><div class="grid"><div class="tile"><div class="st" data-src="tv" data-sym="BITSTAMP:BTCUSD" data-name="BTC/USD" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BITSTAMP:ETHUSD" data-name="ETH/USD" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BINANCE:ETHBTC" data-name="ETH/BTC" data-kind="fx5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BINANCE:SOLUSDT" data-name="SOL/USDT" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BINANCE:XRPUSDT" data-name="XRP/USDT" data-kind="px4"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BINANCE:BNBUSDT" data-name="BNB/USDT" data-kind="px2"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="BINANCE:DOGEUSDT" data-name="DOGE/USDT" data-kind="px5"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:BTC.D" data-name="BTC.D" data-kind="dom"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:ETH.D" data-name="ETH.D" data-kind="dom"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:USDT.D" data-name="USDT.D" data-kind="dom"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:TOTAL" data-name="Total mcap" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:TOTAL2" data-name="Altcoin mcap" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="tv" data-sym="CRYPTOCAP:TOTAL3" data-name="TOTAL3" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="cg" data-sym="CG:VOLUME" data-name="Volum 24h" data-kind="total"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div><div class="tile"><div class="st" data-src="cg" data-sym="CG:ALTSEASON" data-name="Altcoin Season (30z)" data-kind="alts"><div class="st-title"></div><div class="st-price">—</div><div class="st-chg"></div></div></div></div></section><section id="crypto-heatmap">
+<h2 class="bar">HEATMAP CRYPTO</h2>
+<p class="heat-hint">Heatmap monede crypto (TradingView), dimensiune după capitalizare, culoare după variația pe 24h. Clic pentru zoom.</p>
+<div class="heat" id="crypto-heat-box"><div id="crypto-heat-widget"></div></div>
+</section>
+<p class="note">ETF IBIT/ETHA: Finnhub live. BTC, ETH, altcoins, dominanțe și capitalizări: scanner TradingView (streaming). Volum 24h: CoinGecko /global (~60s). Altcoin Season (30z): calcul propriu pe 30 de zile (API-ul gratuit nu oferă 90d).</p></div><div class="page" id="page-memes"><div class="tape"><div class="tape-mount"></div></div><section id="memes-tot">
+<h2 class="bar">MEME COINS</h2>
+<p class="sec-note">Date CoinGecko, categoria „meme-token”, actualizate ~60s. Preț, variație 24h și market cap. Totalurile folosesc endpoint-ul de categorii.</p>
+<div class="grid">
+  <div class="tile"><div class="st" data-src="cg" data-sym="CG:MEMECAP" data-name="Mcap meme (total)" data-kind="total"><div class="st-title">Mcap meme (total)</div><div class="st-price">—</div><div class="st-chg"></div></div></div>
+  <div class="tile"><div class="st" data-src="cg" data-sym="CG:MEMEVOL" data-name="Volum 24h meme" data-kind="total"><div class="st-title">Volum 24h meme</div><div class="st-price">—</div><div class="st-chg"></div></div></div>
+</div>
+</section>
+<section id="memes-list"><h2 class="bar">TOP MEMECOINS</h2><div class="grid" id="meme-grid"></div></section>
+<p class="note">Memecoins: CoinGecko markets (categoria meme-token) și totalurile din /coins/categories, cache dacă API-ul limitează cererile. Poll ~60s.</p></div>
 </main>
 <script>
-
+window.__TAPE__={"america": "[{\"proName\":\"CAPITALCOM:DXY\",\"title\":\"DXY\"},{\"proName\":\"CAPITALCOM:VIX\",\"title\":\"VIX\"},{\"proName\":\"OANDA:NAS100USD\",\"title\":\"NAS100\"},{\"proName\":\"OANDA:SPX500USD\",\"title\":\"S&P 500\"},{\"proName\":\"OANDA:US30USD\",\"title\":\"YM / Dow\"},{\"proName\":\"FX:EURUSD\",\"title\":\"EUR/USD\"},{\"proName\":\"NASDAQ:TLT\",\"title\":\"TLT\"},{\"proName\":\"OANDA:XAUUSD\",\"title\":\"Aur\"},{\"proName\":\"TVC:USOIL\",\"title\":\"WTI\"}]", "romania": "[{\"proName\":\"BVB:BET\",\"title\":\"BET\"},{\"proName\":\"BVB:TLV\",\"title\":\"TLV\"},{\"proName\":\"BVB:SNP\",\"title\":\"SNP\"},{\"proName\":\"BVB:H2O\",\"title\":\"H2O\"},{\"proName\":\"FX_IDC:EURRON\",\"title\":\"EUR/RON\"},{\"proName\":\"FX_IDC:USDRON\",\"title\":\"USD/RON\"},{\"proName\":\"TVC:RO10Y\",\"title\":\"RO10Y\"}]", "china": "[{\"proName\":\"SSE:000001\",\"title\":\"SSE\"},{\"proName\":\"TVC:HSI\",\"title\":\"HSI\"},{\"proName\":\"HSI:HSTECH\",\"title\":\"HSTECH\"},{\"proName\":\"FX:USDCNH\",\"title\":\"USD/CNH\"},{\"proName\":\"TVC:CN10Y\",\"title\":\"CN10Y\"},{\"proName\":\"NYSE:BABA\",\"title\":\"BABA\"},{\"proName\":\"HKEX:700\",\"title\":\"Tencent\"}]", "japonia": "[{\"proName\":\"TVC:NI225\",\"title\":\"Nikkei\"},{\"proName\":\"TSE:TOPIX\",\"title\":\"TOPIX\"},{\"proName\":\"FX:USDJPY\",\"title\":\"USD/JPY\"},{\"proName\":\"TVC:JP10Y\",\"title\":\"JP10Y\"},{\"proName\":\"TSE:7203\",\"title\":\"Toyota\"},{\"proName\":\"TSE:6758\",\"title\":\"Sony\"}]", "germania": "[{\"proName\":\"XETR:DAX\",\"title\":\"DAX\"},{\"proName\":\"TVC:SX5E\",\"title\":\"SX5E\"},{\"proName\":\"FX:EURUSD\",\"title\":\"EUR/USD\"},{\"proName\":\"TVC:DE10Y\",\"title\":\"Bund 10Y\"},{\"proName\":\"XETR:SAP\",\"title\":\"SAP\"},{\"proName\":\"XETR:SIE\",\"title\":\"Siemens\"}]", "britanie": "[{\"proName\":\"TVC:UKX\",\"title\":\"FTSE 100\"},{\"proName\":\"FTSE:MCX\",\"title\":\"FTSE 250\"},{\"proName\":\"FX:GBPUSD\",\"title\":\"GBP/USD\"},{\"proName\":\"TVC:GB10Y\",\"title\":\"Gilt 10Y\"},{\"proName\":\"LSE:SHEL\",\"title\":\"Shell\"},{\"proName\":\"LSE:AZN\",\"title\":\"AZN\"}]", "crypto": "[{\"proName\":\"BITSTAMP:BTCUSD\",\"title\":\"BTC\"},{\"proName\":\"BITSTAMP:ETHUSD\",\"title\":\"ETH\"},{\"proName\":\"BINANCE:SOLUSDT\",\"title\":\"SOL\"},{\"proName\":\"BINANCE:XRPUSDT\",\"title\":\"XRP\"},{\"proName\":\"BINANCE:BNBUSDT\",\"title\":\"BNB\"},{\"proName\":\"NASDAQ:IBIT\",\"title\":\"IBIT\"},{\"proName\":\"CRYPTOCAP:BTC.D\",\"title\":\"BTC.D\"}]", "memes": "[{\"proName\":\"BINANCE:DOGEUSDT\",\"title\":\"DOGE\"},{\"proName\":\"BINANCE:SHIBUSDT\",\"title\":\"SHIB\"},{\"proName\":\"BINANCE:PEPEUSDT\",\"title\":\"PEPE\"},{\"proName\":\"BINANCE:WIFUSDT\",\"title\":\"WIF\"},{\"proName\":\"BINANCE:BONKUSDT\",\"title\":\"BONK\"},{\"proName\":\"BINANCE:TRUMPUSDT\",\"title\":\"TRUMP\"}]"};
 (function(){
 var KEY="dbrijthr01qvp4idcqn0dbrijthr01qvp4idcqng";
 var ARU='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 2.2L10.5 9.3H1.5Z" fill="currentColor"/></svg>';
 var ARD='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 9.8L1.5 2.7h9Z" fill="currentColor"/></svg>';
+var PAGES=["america","romania","china","japonia","germania","britanie","crypto","memes"];
+var HASH={america:"america",romania:"romania",china:"china",japonia:"japonia",germania:"germania","marea-britanie":"britanie",crypto:"crypto",memes:"memes"};
+var TAPE=window.__TAPE__||{};
 
-/* Official US macro, last verified 13 Nov 2026. Edit values here when new releases land. */
+/* Official macros, last verified 13 Nov 2026. Do not invent values; blank items stay "—". */
 var MACRO={
-  updated:"13 nov. 2026",
-  items:[
-    {title:"Inflation Rate (YoY)", value:3.7, prev:3.4, unit:"pct", period:"sept. 2026", invert:true},
-    {title:"Inflation Core (YoY)", value:2.6, prev:2.4, unit:"pct", period:"sept. 2026", invert:true},
-    {title:"Unemployment Rate", value:4.1, prev:4.2, unit:"pct", period:"oct. 2026", invert:true},
-    {title:"NFP", value:165000, prev:60000, unit:"nfp", period:"oct. 2026", invert:false},
-    {title:"Interest Rate", value:4.00, prev:4.00, unit:"pct", period:"28 oct. 2026", invert:false},
-    {title:"FOMC Meeting", label:"9 dec. 2026", sub:"21:00 ora României", period:"8–9 dec. 2026"}
-  ]
+  america:{
+    updated:"13 nov. 2026",
+    items:[
+      {title:"Inflation Rate (YoY)", value:3.7, prev:3.4, unit:"pct", period:"sept. 2026", invert:true},
+      {title:"Inflation Core (YoY)", value:2.6, prev:2.4, unit:"pct", period:"sept. 2026", invert:true},
+      {title:"Unemployment Rate", value:4.1, prev:4.2, unit:"pct", period:"oct. 2026", invert:true},
+      {title:"NFP", value:165000, prev:60000, unit:"nfp", period:"oct. 2026", invert:false},
+      {title:"Interest Rate", value:4.00, prev:4.00, unit:"pct2", period:"28 oct. 2026", invert:false},
+      {title:"FOMC Meeting", label:"9 dec. 2026", sub:"21:00 ora României", period:"8–9 dec. 2026"}
+    ]
+  },
+  romania:{
+    updated:"13 nov. 2026",
+    items:[
+      {title:"Inflație YoY (INS)", value:6.94, prev:6.61, unit:"pct2", period:"oct. 2026", invert:true},
+      {title:"Dobândă BNR", value:6.50, prev:6.50, unit:"pct2", period:"12 nov. 2026", invert:false},
+      {title:"Șomaj (INS, SA)", value:6.3, prev:6.4, unit:"pct", period:"sept. 2026", invert:true},
+      {title:"PIB QoQ", value:2.1, prev:0.0, unit:"pct", period:"T3 2026", invert:false},
+      {title:"Următoarea BNR", label:"19 ian. 2027", sub:"ședință de politică monetară", period:"calendar BNR"}
+    ]
+  },
+  china:{
+    updated:"13 nov. 2026",
+    items:[
+      {title:"CPI YoY (NBS)", value:0.7, prev:0.9, unit:"pct", period:"oct. 2026", invert:true},
+      {title:"PPI YoY (NBS)", value:5.7, prev:5.0, unit:"pct", period:"oct. 2026", invert:true},
+      {title:"PMI NBS (manufactură)", value:49.3, prev:50.1, unit:"pmi", period:"oct. 2026", invert:false},
+      {title:"LPR 1 an", value:3.00, prev:3.00, unit:"pct2", period:"sept. 2026", invert:false},
+      {title:"LPR 5 ani+", value:3.50, prev:3.50, unit:"pct2", period:"sept. 2026", invert:false},
+      {title:"PIB YoY", value:4.5, prev:4.5, unit:"pct", period:"T3 2026", invert:false},
+      {title:"Șomaj urban", value:5.2, prev:5.3, unit:"pct", period:"sept. 2026", invert:true}
+    ]
+  },
+  japonia:{
+    updated:"13 nov. 2026",
+    items:[
+      {title:"CPI YoY", value:2.1, prev:1.9, unit:"pct", period:"sept. 2026", invert:true},
+      {title:"Dobândă BoJ", value:1.25, prev:1.25, unit:"pct2", period:"30 oct. 2026", invert:false},
+      {title:"Șomaj (SA)", value:2.4, prev:2.5, unit:"pct", period:"sept. 2026", invert:true},
+      {title:"PIB QoQ", value:0.4, prev:null, unit:"pct", period:"T2 2026", invert:false},
+      {title:"Tankan (mari industriași)", value:24, prev:22, unit:"di", period:"sept. 2026", invert:false},
+      {title:"Următoarea BoJ", label:"18 dec. 2026", sub:"17–18 dec. 2026", period:"calendar BoJ"}
+    ]
+  },
+  germania:{
+    updated:"13 nov. 2026",
+    items:[
+      {title:"CPI Germania YoY", value:2.8, prev:3.3, unit:"pct", period:"oct. 2026", invert:true},
+      {title:"HICP zona euro YoY", value:4.0, prev:3.8, unit:"pct", period:"oct. 2026", invert:true},
+      {title:"Dobândă depozit BCE", value:2.50, prev:2.50, unit:"pct2", period:"29 oct. 2026", invert:false},
+      {title:"Ifo Business Climate", value:null, prev:null, unit:"ifo", period:"—", invert:false},
+      {title:"ZEW Sentiment", value:28.1, prev:34.7, unit:"di1", period:"oct. 2026", invert:false},
+      {title:"Șomaj (BA)", value:6.3, prev:6.4, unit:"pct", period:"oct. 2026", invert:true},
+      {title:"PIB QoQ", value:0.2, prev:null, unit:"pct", period:"T3 2026", invert:false},
+      {title:"Următoarea BCE", label:"17 dec. 2026", sub:"14:15 CET / 15:15 ora României", period:"16–17 dec. 2026"}
+    ]
+  },
+  britanie:{
+    updated:"13 nov. 2026",
+    items:[
+      {title:"CPI YoY", value:3.5, prev:3.1, unit:"pct", period:"sept. 2026", invert:true},
+      {title:"Bank Rate (BoE)", value:4.00, prev:3.75, unit:"pct2", period:"5 nov. 2026", invert:false},
+      {title:"Șomaj (LFS)", value:4.7, prev:4.8, unit:"pct", period:"iun.–aug. 2026", invert:true},
+      {title:"PIB (3 luni)", value:0.7, prev:0.6, unit:"pct", period:"până în sept. 2026", invert:false},
+      {title:"Următoarea MPC", label:"17 dec. 2026", sub:"decizie Bank Rate", period:"calendar BoE"}
+    ]
+  }
 };
 
 document.querySelectorAll(".st").forEach(function(el){
@@ -210,12 +268,26 @@ function compact(n){
 }
 function decimals(kind){
   if(kind==="fx5")return 5;
+  if(kind==="fx4")return 4;
   if(kind==="fx3"||kind==="yield"||kind==="px3")return 3;
+  if(kind==="px5")return 5;
   if(kind==="dxy")return 3;
   return 2;
 }
+function fmtAuto(n){
+  if(n==null||isNaN(n))return "—";
+  var a=Math.abs(n);
+  if(a===0)return roAbs(n,2);
+  if(a<1e-5)return roAbs(n,8);
+  if(a<1e-3)return roAbs(n,7);
+  if(a<0.01)return roAbs(n,6);
+  if(a<1)return roAbs(n,4);
+  if(a<100)return roAbs(n,decimals("px2")===2&&a<10?3:2);
+  return roAbs(n,2);
+}
 function fmtPrice(n,kind){
   if(n==null||isNaN(n))return "—";
+  if(kind==="auto"||kind==="meme")return fmtAuto(n);
   if(kind==="dom"||kind==="pctonly")return roAbs(n,2)+"%";
   if(kind==="alts")return roAbs(n,0);
   if(kind==="total"){
@@ -226,18 +298,22 @@ function fmtPrice(n,kind){
 }
 function fmtAbs2(n,kind){
   if(n==null||isNaN(n))return "—";
-  if(kind==="total"||Math.abs(n)>=1e6){
+  if(kind==="total"||kind==="meme"||Math.abs(n)>=1e6){
     var c=compact(n);
     if(c)return c;
   }
+  if(kind==="auto"||kind==="meme"){
+    var a=Math.abs(n);
+    var f=2;
+    if(a<1e-5)f=8; else if(a<1e-3)f=7; else if(a<0.01)f=6; else if(a<1)f=4; else if(a<10)f=3;
+    return roSigned(n,f);
+  }
   var f=decimals(kind);
-  if(f>2&&kind!=="yield")f=2;
-  if(kind==="fx5")f=5;
-  if(kind==="fx3")f=3;
+  if(f>2&&kind!=="yield"&&kind!=="fx5"&&kind!=="fx4"&&kind!=="fx3"&&kind!=="px5"&&kind!=="px3")f=2;
   return roSigned(n,f);
 }
 
-function render(el,price,chg,pct,doFlash){
+function render(el,price,chg,pct,doFlash,extra){
   var kind=el.dataset.kind;
   var priceEl=el.querySelector(".st-price");
   var chgEl=el.querySelector(".st-chg");
@@ -260,6 +336,23 @@ function render(el,price,chg,pct,doFlash){
     priceEl.className="st-price";
     chgEl.className="st-chg";
     chgEl.textContent="vs BTC, 30 zile";
+  }else if(kind==="meme"){
+    var txt=fmtPrice(price,"meme");
+    priceEl.textContent=txt;
+    priceEl.className="st-price"+(txt.length>=11?" long":"");
+    if(pct==null||isNaN(pct)){
+      chgEl.className="st-chg"; chgEl.innerHTML="";
+    }else{
+      var up=pct>0, down=pct<0;
+      chgEl.className="st-chg"+(up?" up":down?" down":"");
+      chgEl.innerHTML=roSigned(pct,2)+"% "+(up?ARU:down?ARD:"");
+    }
+    var sub=el.querySelector(".st-sub");
+    if(!sub){sub=document.createElement("div");sub.className="st-sub";el.appendChild(sub);}
+    if(extra!=null&&!isNaN(extra)){
+      var c=compact(extra);
+      sub.textContent=c?"mcap "+c.replace(/^[+-]/,""):"";
+    }
   }else{
     var txt=fmtPrice(price,kind);
     priceEl.textContent=txt;
@@ -271,8 +364,7 @@ function render(el,price,chg,pct,doFlash){
       var up=pct>0||(pct===0&&chg>0);
       var down=pct<0||(pct===0&&chg<0);
       chgEl.className="st-chg"+(up?" up":down?" down":"");
-      var line=fmtAbs2(chg,kind)+" ("+roSigned(pct,2)+"%)";
-      chgEl.innerHTML=line+" "+(up?ARU:down?ARD:"");
+      chgEl.innerHTML=fmtAbs2(chg,kind)+" ("+roSigned(pct,2)+"%) "+(up?ARU:down?ARD:"");
     }
   }
   if(doFlash&&old!=null&&price!=null&&Number(price)!==Number(old)){
@@ -284,47 +376,46 @@ function render(el,price,chg,pct,doFlash){
   el._last=price;
 }
 
-/* ---- static macro tiles ---- */
-function renderMacro(){
-  var grid=document.getElementById("macro-grid");
-  if(!grid)return;
-  MACRO.items.forEach(function(it){
+function fmtMacroVal(it){
+  if(it.label)return it.label;
+  if(it.value==null||isNaN(it.value))return "—";
+  if(it.unit==="nfp")return roSigned(it.value,0);
+  if(it.unit==="pct2")return roAbs(it.value,2)+"%";
+  if(it.unit==="di"||it.unit==="di1")return roSigned(it.value, it.unit==="di1"?1:0);
+  if(it.unit==="pmi"||it.unit==="ifo")return roAbs(it.value,1);
+  return roAbs(it.value,1)+"%";
+}
+function renderMacro(page){
+  var grid=document.querySelector('#page-'+page+' [data-macro]');
+  if(!grid||grid.getAttribute("data-filled"))return;
+  var pack=MACRO[page]; if(!pack)return;
+  pack.items.forEach(function(it){
     var tile=document.createElement("div");
     tile.className="tile";
-    var up, down, prevHtml="";
     if(it.label){
-      prevHtml='<div class="st-chg">'+it.sub+'</div><div class="st-sub">'+it.period+'</div>';
-      tile.innerHTML='<div class="st"><div class="st-title">'+it.title+'</div><div class="st-price long">'+(it.label)+'</div>'+prevHtml+'</div>';
+      tile.innerHTML='<div class="st"><div class="st-title">'+it.title+'</div><div class="st-price long">'+it.label+'</div><div class="st-chg">'+(it.sub||"")+'</div><div class="st-sub">'+it.period+'</div></div>';
+    }else if(it.value==null||isNaN(it.value)){
+      tile.innerHTML='<div class="st"><div class="st-title">'+it.title+'</div><div class="st-price">—</div><div class="st-chg"></div><div class="st-sub">'+it.period+'</div></div>';
     }else{
-      var cur=it.unit==="nfp"?roSigned(it.value,0):(roAbs(it.value,1)+"%");
-      if(it.unit==="nfp"&&it.value>0) cur=roSigned(it.value,0);
-      if(it.unit==="pct") cur=roAbs(it.value, it.title.indexOf("Interest")>=0?2:1)+"%";
-      var ptxt=it.unit==="nfp"?roSigned(it.prev,0):(roAbs(it.prev, it.title.indexOf("Interest")>=0?2:1)+"%");
-      var diff=it.value-it.prev;
-      if(diff>0){up=true;down=false;}
-      else if(diff<0){up=false;down=true;}
-      else {up=false;down=false;}
-      /* invert: rising inflation / unemployment is "worse" → red */
-      if(it.invert&&diff!==0){var tmp=up;up=down;down=tmp;}
-      var cls=up?" up":down?" down":"";
-      var arrow=up?ARU:down?ARD:"";
-      prevHtml='<div class="st-chg'+cls+'">ant. '+ptxt+" "+arrow+'</div><div class="st-sub">'+it.period+'</div>';
-      tile.innerHTML='<div class="st"><div class="st-title">'+it.title+'</div><div class="st-price'+(cur.length>=11?" long":"")+'">'+cur+'</div>'+prevHtml+'</div>';
+      var cur=fmtMacroVal(it);
+      var hasPrev=it.prev!=null&&!isNaN(it.prev);
+      var cls="",arrow="",ptxt="";
+      if(hasPrev){
+        var diff=it.value-it.prev;
+        var up=diff>0, down=diff<0;
+        if(it.invert&&diff!==0){var tmp=up;up=down;down=tmp;}
+        cls=up?" up":down?" down":"";
+        arrow=up?ARU:down?ARD:"";
+        var pIt={value:it.prev,unit:it.unit};
+        ptxt="ant. "+fmtMacroVal(pIt)+" ";
+      }
+      tile.innerHTML='<div class="st"><div class="st-title">'+it.title+'</div><div class="st-price'+(cur.length>=11?" long":"")+'">'+cur+'</div><div class="st-chg'+cls+'">'+ptxt+arrow+'</div><div class="st-sub">'+it.period+'</div></div>';
     }
     grid.appendChild(tile);
   });
+  grid.setAttribute("data-filled","1");
 }
-renderMacro();
 
-/* TradingView public scanner — batched POST, no JSON Content-Type (avoids CORS preflight) */
-var tvTiles=[].slice.call(document.querySelectorAll('.st[data-src="tv"]'));
-var tvMap={};
-tvTiles.forEach(function(el){tvMap[el.dataset.sym]=el;});
-var tvTickers=tvTiles.map(function(el){return el.dataset.sym;});
-
-/* Yields: TVC:US10Y often reports change/change_abs=0 when last=close[1]
-   even if today's bar has moved. Compute close vs prior daily bar (close[1]);
-   if that is ~0, fall back to change from today's open. Same logic for US02Y. */
 function nearZero(x){return x==null||isNaN(x)||Math.abs(x)<5e-4;}
 function yieldChg(close,pct,chg,open,prev,cfo,cfoAbs){
   if(prev!=null&&!isNaN(prev)&&prev!==0&&close!=null&&!isNaN(close)){
@@ -339,8 +430,31 @@ function yieldChg(close,pct,chg,open,prev,cfo,cfoAbs){
   if(cfoAbs!=null||cfo!=null)return {chg:cfoAbs,pct:cfo};
   return {chg:chg,pct:pct};
 }
+
+var tvTimer=null,fhTimer=null,cgTimer=null,altTimer=null,memeTimer=null,fhWs=null,fhBackoff=2000,fhCursor=0;
+var tvTiles=[],tvMap={},tvTickers=[],fhTiles=[],fhState={},fhSyms=[];
+var activePage="america";
+
+function stopPolls(){
+  if(tvTimer){clearInterval(tvTimer);tvTimer=null;}
+  if(fhTimer){clearInterval(fhTimer);fhTimer=null;}
+  if(cgTimer){clearInterval(cgTimer);cgTimer=null;}
+  if(altTimer){clearInterval(altTimer);altTimer=null;}
+  if(memeTimer){clearInterval(memeTimer);memeTimer=null;}
+  if(fhWs){
+    try{fhWs.onclose=null;fhWs.close();}catch(e){}
+    fhWs=null;
+  }
+}
+function bindTv(pageEl){
+  tvTiles=[].slice.call(pageEl.querySelectorAll('.st[data-src="tv"]'));
+  tvMap={};
+  tvTiles.forEach(function(el){tvMap[el.dataset.sym]=el;});
+  tvTickers=tvTiles.map(function(el){return el.dataset.sym;});
+}
 function pollTV(){
-  return fetch("https://scanner.tradingview.com/global/scan",{
+  if(!tvTickers.length)return;
+  fetch("https://scanner.tradingview.com/global/scan",{
     method:"POST",
     body:JSON.stringify({symbols:{tickers:tvTickers,query:{typespecs:[]}},columns:["close","change","change_abs","open","close[1]","change_from_open","change_from_open_abs"]})
   }).then(function(r){return r.json();}).then(function(data){
@@ -357,14 +471,6 @@ function pollTV(){
     });
   }).catch(function(){});
 }
-
-/* Finnhub: TLT, IBIT, ETHA + 11 sector ETFs. Stay under 60 REST req/min.
-   Initial staggered quotes, websocket trades, then 3 quotes every 8s (~22/min). */
-var fhTiles=[].slice.call(document.querySelectorAll('.st[data-src="fh"]'));
-var fhState={};
-fhTiles.forEach(function(el){fhState[el.dataset.sym]={pc:null,el:el};});
-var fhSyms=fhTiles.map(function(el){return el.dataset.sym;});
-var fhCursor=0;
 
 function applyFHQuote(sym,q){
   if(!q||q.c==null||(q.c===0&&!q.pc))return;
@@ -396,9 +502,10 @@ function pollFHRotate(){
     fhCursor++;
   }
 }
-var fhBackoff=2000;
 function connectFH(){
+  if(!fhSyms.length||!KEY||KEY.indexOf("__FIN")===0)return;
   var ws=new WebSocket("wss://ws.finnhub.io?token="+encodeURIComponent(KEY));
+  fhWs=ws;
   ws.onopen=function(){
     fhBackoff=2000;
     fhSyms.forEach(function(sym){ws.send(JSON.stringify({type:"subscribe",symbol:sym}));});
@@ -410,44 +517,38 @@ function connectFH(){
     }
   };
   ws.onclose=function(){
-    setTimeout(connectFH,fhBackoff);
+    fhWs=null;
+    setTimeout(function(){
+      if(activePage==="america"||activePage==="crypto")connectFH();
+    },fhBackoff);
     fhBackoff=Math.min(fhBackoff*2,60000);
   };
 }
 
-/* CoinGecko: total 24h volume (~60s) + altseason 30d (every 5 min) */
-var elVol=document.querySelector('.st[data-sym="CG:VOLUME"]');
-var elAlt=document.querySelector('.st[data-sym="CG:ALTSEASON"]');
-var SKIP_SYM={
-  btc:1,usdt:1,usdc:1,dai:1,fdusd:1,usde:1,usds:1,pyusd:1,tusd:1,busd:1,usdd:1,
-  frax:1,lusd:1,gusd:1,rlusd:1,usd1:1,usd0:1,usdp:1,tusd:1,eurc:1,euri:1,
-  wbtc:1,weth:1,steth:1,weeth:1,wsteth:1,cbbtc:1,tbtc:1,wbtc:1,reth:1,meth:1,
-  wbeth:1,rseth:1,ezeth:1,lbtc:1,solvbtc:1
-};
+var SKIP_SYM={btc:1,usdt:1,usdc:1,dai:1,fdusd:1,usde:1,usds:1,pyusd:1,tusd:1,busd:1,usdd:1,frax:1,lusd:1,gusd:1,rlusd:1,usd1:1,usd0:1,usdp:1,eurc:1,euri:1,wbtc:1,weth:1,steth:1,weeth:1,wsteth:1,cbbtc:1,tbtc:1,reth:1,meth:1,wbeth:1,rseth:1,ezeth:1,lbtc:1,solvbtc:1};
 function pollVolume(){
+  var elVol=document.querySelector('#page-crypto .st[data-sym="CG:VOLUME"]');
   if(!elVol)return;
   fetch("https://api.coingecko.com/api/v3/global")
     .then(function(r){return r.json();})
     .then(function(j){
       var d=(j&&j.data)||{};
-      var vol=d.total_volume && d.total_volume.usd;
+      var vol=d.total_volume&&d.total_volume.usd;
       var pct=d.volume_change_percentage_24h_usd;
       if(vol==null)return;
       var prev=null,chg=null;
-      if(pct!=null&&!isNaN(pct)&&pct!==-100){
-        prev=vol/(1+pct/100);
-        chg=vol-prev;
-      }
+      if(pct!=null&&!isNaN(pct)&&pct!==-100){prev=vol/(1+pct/100);chg=vol-prev;}
       render(elVol,vol,chg,pct,true);
     }).catch(function(){});
 }
 function pollAltseason(){
+  var elAlt=document.querySelector('#page-crypto .st[data-sym="CG:ALTSEASON"]');
   if(!elAlt)return;
   var url="https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&price_change_percentage=30d&sparkline=false";
   fetch(url).then(function(r){return r.json();}).then(function(list){
     if(!list||!list.length)return;
     var btc=list.find(function(c){return (c.symbol||"").toLowerCase()==="btc";});
-    var btcChg=btc && btc.price_change_percentage_30d_in_currency;
+    var btcChg=btc&&btc.price_change_percentage_30d_in_currency;
     if(btcChg==null||isNaN(btcChg))return;
     var alts=[];
     list.forEach(function(c){
@@ -459,84 +560,216 @@ function pollAltseason(){
     alts=alts.slice(0,50);
     if(!alts.length)return;
     var beat=alts.filter(function(c){return c.price_change_percentage_30d_in_currency>btcChg;}).length;
-    var score=Math.round(100*beat/alts.length);
-    render(elAlt,score,null,null,true);
+    render(elAlt,Math.round(100*beat/alts.length),null,null,true);
   }).catch(function(){});
 }
 
-/* S&P 500 heatmap — rebuild on period change; sector dropdown resets zoom (no per-sector dataSource) */
-var heatColor="change";
-function buildHeatmap(){
-  var box=document.getElementById("heat-widget");
-  if(!box)return;
-  box.innerHTML="";
+var memeCache=null;
+function ensureMemeTiles(list){
+  var seenS={};list=(list||[]).filter(function(c){var k=(c.symbol||"").toLowerCase();if(seenS[k])return false;seenS[k]=1;return true;});
+  var grid=document.getElementById("meme-grid");
+  if(!grid)return;
+  if(!grid.getAttribute("data-built")){
+    list.forEach(function(c){
+      var el=document.createElement("div");
+      el.className="tile";
+      var sym=(c.symbol||"").toUpperCase();
+      el.innerHTML='<div class="st" data-src="cg" data-sym="CG:'+c.id+'" data-name="'+sym+'" data-kind="meme"><div class="st-title">'+sym+'</div><div class="st-price">—</div><div class="st-chg"></div><div class="st-sub"></div></div>';
+      grid.appendChild(el);
+    });
+    grid.setAttribute("data-built","1");
+  }
+  var map={};
+  grid.querySelectorAll(".st").forEach(function(el){map[el.dataset.sym]="CG:"+el.dataset.sym.slice(3); map["CG:"+el.dataset.sym.replace(/^CG:/,"")]=el; map[el.dataset.sym]=el;});
+  list.forEach(function(c){
+    var el=document.querySelector('#meme-grid .st[data-sym="CG:'+c.id+'"]');
+    if(!el)return;
+    render(el,c.current_price,null,c.price_change_percentage_24h,true,c.market_cap);
+  });
+}
+function renderMemeTotals(cat){
+  var elM=document.querySelector('#page-memes .st[data-sym="CG:MEMECAP"]');
+  var elV=document.querySelector('#page-memes .st[data-sym="CG:MEMEVOL"]');
+  if(cat&&elM){
+    var cap=cat.market_cap, chg=cat.market_cap_change_24h;
+    var abs=null;
+    if(cap!=null&&chg!=null&&chg!==-100){var prev=cap/(1+chg/100);abs=cap-prev;}
+    render(elM,cap,abs,chg,true);
+  }
+  if(cat&&elV){
+    render(elV,cat.volume_24h,null,null,false);
+    var chgEl=elV.querySelector(".st-chg");
+    if(chgEl) chgEl.textContent="24h, categoria Meme";
+  }
+}
+function pollMemes(){
+  var p1=fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=meme-token&order=market_cap_desc&per_page=18&page=1&sparkline=false");
+  var p2=fetch("https://api.coingecko.com/api/v3/coins/categories");
+  Promise.all([p1,p2]).then(function(rs){
+    return Promise.all(rs.map(function(r){return r.ok?r.json():null;}));
+  }).then(function(arr){
+    var list=arr[0], cats=arr[1];
+    if(list&&list.length){
+      memeCache={list:list, cat:null};
+      ensureMemeTiles(list);
+    }
+    if(cats&&cats.length){
+      var cat=cats.find(function(c){return c.id==="meme-token";});
+      if(memeCache) memeCache.cat=cat;
+      renderMemeTotals(cat);
+    }
+  }).catch(function(){
+    if(memeCache&&memeCache.list) ensureMemeTiles(memeCache.list);
+    if(memeCache&&memeCache.cat) renderMemeTotals(memeCache.cat);
+  });
+}
+
+function mountWidget(container, src, payload){
+  container.innerHTML="";
   var wrap=document.createElement("div");
   wrap.className="tradingview-widget-container";
   var inner=document.createElement("div");
   inner.className="tradingview-widget-container__widget";
   var s=document.createElement("script");
   s.type="text/javascript";
-  s.src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js";
+  s.src=src;
   s.async=true;
-  s.textContent=JSON.stringify({
-    exchanges:[],
-    dataSource:"SPX500",
-    grouping:"sector",
-    blockSize:"market_cap_basic",
-    blockColor:heatColor,
-    locale:"ro",
-    colorTheme:"dark",
-    hasTopBar:false,
-    isDataSetEnabled:false,
-    isZoomEnabled:true,
-    hasSymbolTooltip:true,
-    isMonoSize:false,
-    width:"100%",
-    height:"100%"
-  });
+  s.textContent=JSON.stringify(payload);
   wrap.appendChild(inner);
   wrap.appendChild(s);
-  box.appendChild(wrap);
+  container.appendChild(wrap);
 }
-function bindHeatmap(){
+function buildTape(page){
+  var box=document.querySelector("#page-"+page+" .tape-mount");
+  if(!box||box.getAttribute("data-built"))return;
+  var syms=TAPE[page];
+  if(!syms)return;
+  mountWidget(box, "https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js", {
+    symbols: typeof syms==="string"?JSON.parse(syms):syms,
+    showSymbolLogo:true, isTransparent:true, displayMode:"adaptive", colorTheme:"dark", locale:"ro"
+  });
+  box.setAttribute("data-built","1");
+}
+function buildCalendar(page){
+  var cal=document.querySelector("#page-"+page+" .cal[data-cal]");
+  if(!cal)return;
+  var mount=cal.querySelector(".cal-mount");
+  if(!mount||mount.getAttribute("data-built"))return;
+  mountWidget(mount, "https://s3.tradingview.com/external-embedding/embed-widget-events.js", {
+    colorTheme:"dark", isTransparent:true, width:"100%", height:"600", locale:"ro",
+    importanceFilter:"0,1", countryFilter:cal.getAttribute("data-cal")
+  });
+  mount.setAttribute("data-built","1");
+}
+
+var heatColor="change";
+function buildStockHeatmap(){
+  var box=document.getElementById("heat-widget");
+  if(!box)return;
+  mountWidget(box, "https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js", {
+    exchanges:[], dataSource:"SPX500", grouping:"sector", blockSize:"market_cap_basic",
+    blockColor:heatColor, locale:"ro", colorTheme:"dark", hasTopBar:false,
+    isDataSetEnabled:false, isZoomEnabled:true, hasSymbolTooltip:true, isMonoSize:false,
+    width:"100%", height:"100%"
+  });
+}
+function bindStockHeatmap(){
   var seg=document.getElementById("heat-period");
   var sel=document.getElementById("heat-sec");
   var hint=document.getElementById("heat-hint");
-  if(seg){
+  if(seg && !seg.getAttribute("data-bound")){
+    seg.setAttribute("data-bound","1");
     seg.addEventListener("click",function(ev){
       var b=ev.target.closest("button");
       if(!b||!b.dataset.color)return;
       seg.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b);});
       heatColor=b.dataset.color;
       if(sel) sel.value="";
-      if(hint) hint.textContent="Widgetul nu filtrează pe un singur sector. Faceți clic pe un sector în hartă pentru a mări; „Toate sectoarele” resetează vizualizarea.";
-      buildHeatmap();
+      buildStockHeatmap();
     });
   }
-  if(sel){
-    sel.addEventListener("change",function(){
-      var v=sel.value;
-      if(hint){
-        hint.textContent=v
-          ?("Faceți clic pe sectorul «"+v+"» în hartă pentru a mări. „Toate sectoarele” reconstruiește widgetul și resetează zoom-ul.")
-          :"Vizualizare resetată. Faceți clic pe un sector în hartă pentru a mări.";
-      }
-      buildHeatmap();
-    });
+  if(sel && !sel.getAttribute("data-bound")){
+    sel.setAttribute("data-bound","1");
+    sel.addEventListener("change",function(){buildStockHeatmap();});
   }
-  buildHeatmap();
+  var box=document.getElementById("heat-widget");
+  if(box && !box.getAttribute("data-built")){
+    box.setAttribute("data-built","1");
+    buildStockHeatmap();
+  }else if(box && !box.querySelector("iframe, script")){
+    buildStockHeatmap();
+  }
 }
-bindHeatmap();
+function buildCryptoHeatmap(){
+  var box=document.getElementById("crypto-heat-widget");
+  if(!box||box.getAttribute("data-built"))return;
+  mountWidget(box, "https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js", {
+    dataSource:"Crypto", blockSize:"market_cap_calc", blockColor:"24h_close_change|5",
+    locale:"ro", colorTheme:"dark", hasTopBar:false, isDataSetEnabled:false,
+    isZoomEnabled:true, hasSymbolTooltip:true, isMonoSize:false, width:"100%", height:"100%"
+  });
+  box.setAttribute("data-built","1");
+}
 
-pollTV();
-pollFHInitial();
-connectFH();
-pollVolume();
-pollAltseason();
-setInterval(pollTV,15000);
-setInterval(pollFHRotate,8000);
-setInterval(pollVolume,60000);
-setInterval(pollAltseason,300000);
+function startPolls(page){
+  var pageEl=document.getElementById("page-"+page);
+  if(!pageEl)return;
+  bindTv(pageEl);
+  fhTiles=[].slice.call(pageEl.querySelectorAll('.st[data-src="fh"]'));
+  fhState={}; fhCursor=0;
+  fhTiles.forEach(function(el){fhState[el.dataset.sym]={pc:null,el:el};});
+  fhSyms=fhTiles.map(function(el){return el.dataset.sym;});
+  pollTV();
+  if(tvTickers.length) tvTimer=setInterval(pollTV,15000);
+  if(fhSyms.length){
+    pollFHInitial();
+    connectFH();
+    fhTimer=setInterval(pollFHRotate,8000);
+  }
+  if(page==="crypto"){
+    pollVolume(); pollAltseason();
+    cgTimer=setInterval(pollVolume,60000);
+    altTimer=setInterval(pollAltseason,300000);
+    buildCryptoHeatmap();
+  }
+  if(page==="memes"){
+    pollMemes();
+    memeTimer=setInterval(pollMemes,60000);
+  }
+  if(page==="america") bindStockHeatmap();
+  buildTape(page);
+  buildCalendar(page);
+  renderMacro(page);
+}
+
+function showPage(page){
+  if(PAGES.indexOf(page)<0) page="america";
+  if(page===activePage && document.getElementById("page-"+page).classList.contains("on") && tvTimer){
+    return;
+  }
+  stopPolls();
+  activePage=page;
+  document.querySelectorAll(".page").forEach(function(p){p.classList.toggle("on", p.id==="page-"+page);});
+  document.querySelectorAll(".nb[data-page]").forEach(function(a){a.classList.toggle("act", a.getAttribute("data-page")===page);});
+  var hash=page==="britanie"?"marea-britanie":page;
+  if(location.hash.replace("#","")!==hash){
+    history.replaceState(null,"","#"+hash);
+  }
+  startPolls(page);
+}
+function pageFromHash(){
+  var h=(location.hash||"#america").replace("#","").toLowerCase();
+  return HASH[h]||"america";
+}
+
+document.querySelectorAll(".nb[data-page]").forEach(function(a){
+  a.addEventListener("click",function(ev){
+    ev.preventDefault();
+    showPage(a.getAttribute("data-page"));
+  });
+});
+window.addEventListener("hashchange",function(){showPage(pageFromHash());});
+showPage(pageFromHash());
 })();
 
 </script>
