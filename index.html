@@ -12,22 +12,41 @@ radial-gradient(ellipse 60% 40% at 80% 20%,#1d1a4a55,transparent),radial-gradien
 main{margin-left:104px;padding:14px 18px 40px}
 .bar{margin:22px 0 12px;padding:11px;border-radius:12px;background:#0d0f17e6;border:1px solid #ffffff12;color:#ff8a1f;text-align:center;font-size:16px;letter-spacing:2px;font-weight:800}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:10px}
-.tile{background:#12141dcc;border:1px solid #ffffff12;border-radius:12px;padding:8px 8px 2px;overflow:hidden;transition:border-color .2s}.tile:hover{border-color:#ff8a1f66}
+.tile{position:relative;background:#12141dcc;border:1px solid #ffffff12;border-radius:12px;padding:8px 8px 2px;overflow:hidden;transition:border-color .2s}.tile:hover{border-color:#ff8a1f66}
 .tname{text-align:center;font-weight:800;font-size:14px;margin-bottom:2px}
 .tw{height:78px}.tw .tradingview-widget-container{height:100%}
-.tape{border-radius:12px;background:#0d0f17e6;border:1px solid #ffffff12;overflow:hidden}
+.tape{position:relative;border-radius:12px;background:#0d0f17e6;border:1px solid #ffffff12;overflow:hidden}
 .cal{background:#12141dcc;border:1px solid #ffffff12;border-radius:12px;padding:6px}
 .note{color:#8a8f9c;font-size:12px;text-align:center;margin-top:24px}
 @media(max-width:700px){.side{top:auto;width:auto;right:0;flex-direction:row;padding:6px;gap:6px;overflow-x:auto}.nb{min-width:64px;font-size:8px}.nb svg{width:20px;height:20px}main{margin-left:0;padding:10px 10px 90px}.grid{grid-template-columns:repeat(2,1fr);gap:8px}}
+
+.tw:not(.fh){position:relative;overflow:hidden}
+.tile:has(.tw:not(.fh))::after{content:"";position:absolute;right:0;bottom:0;width:44px;height:42px;background:#0e1019;pointer-events:auto;z-index:3;border-radius:0 0 12px 0}
+.tape::after{content:"";position:absolute;top:0;right:0;bottom:0;width:44px;background:#0d0f17;pointer-events:auto;z-index:3}
+.fh{height:78px;display:flex;align-items:stretch}
+.fh-inner{display:flex;align-items:flex-start;gap:8px;width:100%;height:100%;padding:10px 6px 6px 6px;font-family:"Trebuchet MS",Trebuchet,Arial,sans-serif}
+.fh-logo{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:#1a56a0;color:#fff;font:italic 700 15px/22px Georgia,"Times New Roman",serif;text-align:center}
+.fh-mid{flex:1;min-width:0}
+.fh-top{display:flex;align-items:baseline;justify-content:space-between;gap:6px;margin-bottom:3px}
+.fh-sym{color:#d1d4dc;font-size:13px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.fh-price{color:#d1d4dc;font-size:13px;font-weight:400;flex:0 0 auto;padding:0 3px;border-radius:3px;transition:background .2s,color .2s}
+.fh-price.flash-up{background:#22ab9466;color:#fff}
+.fh-price.flash-down{background:#f2364566;color:#fff}
+.fh-chg{display:flex;align-items:baseline;gap:8px;line-height:1.05;font-weight:700}
+.fh-chg.up{color:#22ab94}
+.fh-chg.down{color:#f23645}
+.fh-pct{font-size:22px;display:flex;align-items:center;gap:3px;letter-spacing:-.3px}
+.fh-chev{width:12px;height:12px;flex:0 0 12px}
+.fh-abs{font-size:12px;font-weight:600}
 </style></head><body>
 <nav class="side"><a class="nb act" href="#top"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>DASHBOARD</span></a><a class="nb" href="#crypto"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 7.5v9M9.5 8h4a2 2 0 010 4h-4m0 0h4.5a2 2 0 010 4H9.5M11 6v2m0 8v2"/></svg><span>CRYPTO</span></a><a class="nb" href="#indici"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 16l4-5 4 3 6-8"/><path d="M15 6h4v4"/></svg><span>STOCKS</span></a><a class="nb" href="#calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>CALENDAR</span></a><a class="nb off" title="În curând"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M3 13h18"/></svg><span>PORTOFOLIU</span></a><a class="nb off" title="În curând"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 10-2.3 5.7"/><path d="M20 4v7h-7"/></svg><span>UPDATE</span></a></nav>
 <main id="top">
 <div class="tape"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>{"symbols": [{"proName": "CAPITALCOM:DXY", "title": "DXY"}, {"proName": "CAPITALCOM:VIX", "title": "VIX"}, {"proName": "OANDA:NAS100USD", "title": "NAS100"}, {"proName": "OANDA:SPX500USD", "title": "S&P 500"}, {"proName": "OANDA:US30USD", "title": "YM / Dow"}, {"proName": "CAPITALCOM:RTY", "title": "RTY / Russell"}, {"proName": "FX:EURUSD", "title": "EUR/USD"}, {"proName": "FX:USDJPY", "title": "USD/JPY"}, {"proName": "FX:GBPUSD", "title": "GBP/USD"}, {"proName": "NASDAQ:TLT", "title": "TLT"}, {"proName": "PYTH:US02Y", "title": "US02Y"}, {"proName": "PYTH:US10Y", "title": "US10Y"}, {"proName": "OANDA:XAUUSD", "title": "Aur"}, {"proName": "OANDA:XAGUSD", "title": "Argint"}, {"proName": "TVC:USOIL", "title": "Petrol WTI"}, {"proName": "TVC:UKOIL", "title": "Brent"}, {"proName": "NASDAQ:IBIT", "title": "ETF BTC (IBIT)"}, {"proName": "NASDAQ:ETHA", "title": "ETF ETH (ETHA)"}, {"proName": "BITSTAMP:BTCUSD", "title": "BTC/USD"}, {"proName": "BITSTAMP:ETHUSD", "title": "ETH/USD"}, {"proName": "CRYPTOCAP:BTC.D", "title": "BTC.D"}, {"proName": "CRYPTOCAP:ETH.D", "title": "ETH.D"}, {"proName": "CRYPTOCAP:USDT.D", "title": "USDT.D"}, {"proName": "CRYPTOCAP:TOTAL3", "title": "TOTAL3"}], "showSymbolLogo": true, "isTransparent": true, "displayMode": "adaptive", "colorTheme": "dark", "locale": "ro"}</script></div></div>
-<section id="indici"><h2 class="bar">INDICI & VOLATILITATE</h2><div class="grid"><div class="tile"><div class="tname">DXY</div><div class="tw" data-sym="CAPITALCOM:DXY" data-name="DXY"></div></div><div class="tile"><div class="tname">VIX</div><div class="tw" data-sym="CAPITALCOM:VIX" data-name="VIX"></div></div><div class="tile"><div class="tname">NAS100</div><div class="tw" data-sym="OANDA:NAS100USD" data-name="NAS100"></div></div><div class="tile"><div class="tname">S&P 500</div><div class="tw" data-sym="OANDA:SPX500USD" data-name="S&P 500"></div></div><div class="tile"><div class="tname">YM / Dow</div><div class="tw" data-sym="OANDA:US30USD" data-name="YM / Dow"></div></div><div class="tile"><div class="tname">RTY / Russell</div><div class="tw" data-sym="CAPITALCOM:RTY" data-name="RTY / Russell"></div></div></div></section><section id="forex"><h2 class="bar">FOREX</h2><div class="grid"><div class="tile"><div class="tname">EUR/USD</div><div class="tw" data-sym="FX:EURUSD" data-name="EUR/USD"></div></div><div class="tile"><div class="tname">USD/JPY</div><div class="tw" data-sym="FX:USDJPY" data-name="USD/JPY"></div></div><div class="tile"><div class="tname">GBP/USD</div><div class="tw" data-sym="FX:GBPUSD" data-name="GBP/USD"></div></div></div></section><section id="oblig"><h2 class="bar">OBLIGAȚIUNI</h2><div class="grid"><div class="tile"><div class="tname">TLT</div><div class="tw" data-sym="NASDAQ:TLT" data-name="TLT"></div></div><div class="tile"><div class="tname">US02Y</div><div class="tw" data-sym="PYTH:US02Y" data-name="US02Y"></div></div><div class="tile"><div class="tname">US10Y</div><div class="tw" data-sym="PYTH:US10Y" data-name="US10Y"></div></div></div></section><section id="marfuri"><h2 class="bar">MĂRFURI</h2><div class="grid"><div class="tile"><div class="tname">Aur</div><div class="tw" data-sym="OANDA:XAUUSD" data-name="Aur"></div></div><div class="tile"><div class="tname">Argint</div><div class="tw" data-sym="OANDA:XAGUSD" data-name="Argint"></div></div><div class="tile"><div class="tname">Petrol WTI</div><div class="tw" data-sym="TVC:USOIL" data-name="Petrol WTI"></div></div><div class="tile"><div class="tname">Brent</div><div class="tw" data-sym="TVC:UKOIL" data-name="Brent"></div></div></div></section><section id="etf"><h2 class="bar">ETF CRYPTO</h2><div class="grid"><div class="tile"><div class="tname">ETF BTC (IBIT)</div><div class="tw" data-sym="NASDAQ:IBIT" data-name="ETF BTC (IBIT)"></div></div><div class="tile"><div class="tname">ETF ETH (ETHA)</div><div class="tw" data-sym="NASDAQ:ETHA" data-name="ETF ETH (ETHA)"></div></div></div></section><section id="crypto"><h2 class="bar">CRYPTO</h2><div class="grid"><div class="tile"><div class="tname">BTC/USD</div><div class="tw" data-sym="BITSTAMP:BTCUSD" data-name="BTC/USD"></div></div><div class="tile"><div class="tname">ETH/USD</div><div class="tw" data-sym="BITSTAMP:ETHUSD" data-name="ETH/USD"></div></div><div class="tile"><div class="tname">BTC.D</div><div class="tw" data-sym="CRYPTOCAP:BTC.D" data-name="BTC.D"></div></div><div class="tile"><div class="tname">ETH.D</div><div class="tw" data-sym="CRYPTOCAP:ETH.D" data-name="ETH.D"></div></div><div class="tile"><div class="tname">USDT.D</div><div class="tw" data-sym="CRYPTOCAP:USDT.D" data-name="USDT.D"></div></div><div class="tile"><div class="tname">TOTAL3</div><div class="tw" data-sym="CRYPTOCAP:TOTAL3" data-name="TOTAL3"></div></div></div></section>
+<section id="indici"><h2 class="bar">INDICI & VOLATILITATE</h2><div class="grid"><div class="tile"><div class="tname">DXY</div><div class="tw" data-sym="CAPITALCOM:DXY" data-name="DXY"></div></div><div class="tile"><div class="tname">VIX</div><div class="tw" data-sym="CAPITALCOM:VIX" data-name="VIX"></div></div><div class="tile"><div class="tname">NAS100</div><div class="tw" data-sym="OANDA:NAS100USD" data-name="NAS100"></div></div><div class="tile"><div class="tname">S&P 500</div><div class="tw" data-sym="OANDA:SPX500USD" data-name="S&P 500"></div></div><div class="tile"><div class="tname">YM / Dow</div><div class="tw" data-sym="OANDA:US30USD" data-name="YM / Dow"></div></div><div class="tile"><div class="tname">RTY / Russell</div><div class="tw" data-sym="CAPITALCOM:RTY" data-name="RTY / Russell"></div></div></div></section><section id="forex"><h2 class="bar">FOREX</h2><div class="grid"><div class="tile"><div class="tname">EUR/USD</div><div class="tw" data-sym="FX:EURUSD" data-name="EUR/USD"></div></div><div class="tile"><div class="tname">USD/JPY</div><div class="tw" data-sym="FX:USDJPY" data-name="USD/JPY"></div></div><div class="tile"><div class="tname">GBP/USD</div><div class="tw" data-sym="FX:GBPUSD" data-name="GBP/USD"></div></div></div></section><section id="oblig"><h2 class="bar">OBLIGAȚIUNI</h2><div class="grid"><div class="tile"><div class="tname">TLT</div><div class="tw fh" data-sym="TLT" data-name="TLT"></div></div><div class="tile"><div class="tname">US02Y</div><div class="tw" data-sym="PYTH:US02Y" data-name="US02Y"></div></div><div class="tile"><div class="tname">US10Y</div><div class="tw" data-sym="PYTH:US10Y" data-name="US10Y"></div></div></div></section><section id="marfuri"><h2 class="bar">MĂRFURI</h2><div class="grid"><div class="tile"><div class="tname">Aur</div><div class="tw" data-sym="OANDA:XAUUSD" data-name="Aur"></div></div><div class="tile"><div class="tname">Argint</div><div class="tw" data-sym="OANDA:XAGUSD" data-name="Argint"></div></div><div class="tile"><div class="tname">Petrol WTI</div><div class="tw" data-sym="TVC:USOIL" data-name="Petrol WTI"></div></div><div class="tile"><div class="tname">Brent</div><div class="tw" data-sym="TVC:UKOIL" data-name="Brent"></div></div></div></section><section id="etf"><h2 class="bar">ETF CRYPTO</h2><div class="grid"><div class="tile"><div class="tname">ETF BTC (IBIT)</div><div class="tw fh" data-sym="IBIT" data-name="ETF BTC (IBIT)"></div></div><div class="tile"><div class="tname">ETF ETH (ETHA)</div><div class="tw fh" data-sym="ETHA" data-name="ETF ETH (ETHA)"></div></div></div></section><section id="crypto"><h2 class="bar">CRYPTO</h2><div class="grid"><div class="tile"><div class="tname">BTC/USD</div><div class="tw" data-sym="BITSTAMP:BTCUSD" data-name="BTC/USD"></div></div><div class="tile"><div class="tname">ETH/USD</div><div class="tw" data-sym="BITSTAMP:ETHUSD" data-name="ETH/USD"></div></div><div class="tile"><div class="tname">BTC.D</div><div class="tw" data-sym="CRYPTOCAP:BTC.D" data-name="BTC.D"></div></div><div class="tile"><div class="tname">ETH.D</div><div class="tw" data-sym="CRYPTOCAP:ETH.D" data-name="ETH.D"></div></div><div class="tile"><div class="tname">USDT.D</div><div class="tw" data-sym="CRYPTOCAP:USDT.D" data-name="USDT.D"></div></div><div class="tile"><div class="tname">TOTAL3</div><div class="tw" data-sym="CRYPTOCAP:TOTAL3" data-name="TOTAL3"></div></div></div></section>
 <section id="calendar"><h2 class="bar">CALENDAR ECONOMIC</h2><div class="cal"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>{"colorTheme": "dark", "isTransparent": true, "width": "100%", "height": "600", "locale": "ro", "importanceFilter": "0,1", "countryFilter": "us,cn,jp,de,gb,ro,eu"}</script></div></div></section>
-<p class="note">Prețuri live prin widget-uri TradingView, actualizate automat. Unele simboluri (TLT, IBIT, ETHA) pot avea întârziere ~15 min.</p>
+<p class="note">Prețuri live prin widget-uri TradingView, actualizate automat. TLT, IBIT și ETHA sunt prețuri live prin Finnhub.</p>
 </main><script>
-(function(){var tws=[].slice.call(document.querySelectorAll('.tw'));var i=0;
+(function(){var tws=[].slice.call(document.querySelectorAll('.tw:not(.fh)'));var i=0;
 function next(){if(i>=tws.length)return;var el=tws[i++];
 var c=document.createElement('div');c.className='tradingview-widget-container';
 var w=document.createElement('div');w.className='tradingview-widget-container__widget';c.appendChild(w);
@@ -35,4 +54,79 @@ var sc=document.createElement('script');sc.src='https://s3.tradingview.com/exter
 sc.text=JSON.stringify({symbols:[{proName:el.dataset.sym,title:el.dataset.name}],isTransparent:true,showSymbolLogo:true,colorTheme:'dark',locale:'ro'});
 c.appendChild(sc);el.appendChild(c);setTimeout(next,120);}
 next();})();
-</script></body></html>
+</script>
+<script>
+(function(){
+var KEY="dbrijthr01qvp4idcqn0dbrijthr01qvp4idcqng";
+var tiles=[].slice.call(document.querySelectorAll(".tw.fh"));
+var state={};
+var chevUp='<svg class="fh-chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 7L5 3.2L8 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var chevDn='<svg class="fh-chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3L5 6.8L8 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function fmtP(n){if(n==null||isNaN(n))return "—";return Number(n).toFixed(2);}
+function fmtPct(n){if(n==null||isNaN(n))return "—";return Math.abs(n).toFixed(2)+"%";}
+function fmtAbs(n){if(n==null||isNaN(n))return "";return Math.abs(n).toFixed(2);}
+tiles.forEach(function(el){
+  var name=el.dataset.name;
+  el.innerHTML='<div class="fh-inner"><div class="fh-logo">i</div><div class="fh-mid"><div class="fh-top"><span class="fh-sym"></span><span class="fh-price">—</span></div><div class="fh-chg"><span class="fh-pct"></span><span class="fh-abs"></span></div></div></div>';
+  el.querySelector(".fh-sym").textContent=name;
+  state[el.dataset.sym]={pc:null,c:null,el:el};
+});
+function render(sym,price,chg,pct,flash){
+  var st=state[sym];if(!st)return;
+  var el=st.el,priceEl=el.querySelector(".fh-price"),chgEl=el.querySelector(".fh-chg");
+  var pctEl=el.querySelector(".fh-pct"),absEl=el.querySelector(".fh-abs");
+  var old=st.c;st.c=price;
+  var up=(pct==null||isNaN(pct))?null:pct>=0;
+  chgEl.className="fh-chg"+(up==null?"":(up?" up":" down"));
+  priceEl.textContent=fmtP(price);
+  if(up==null){pctEl.innerHTML="";absEl.textContent="";}
+  else{pctEl.innerHTML=(up?chevUp:chevDn)+fmtPct(pct);absEl.textContent=fmtAbs(chg);}
+  if(flash&&old!=null&&price!=null&&Number(price)!==Number(old)){
+    priceEl.classList.remove("flash-up","flash-down");
+    void priceEl.offsetWidth;
+    priceEl.classList.add(Number(price)>Number(old)?"flash-up":"flash-down");
+    setTimeout(function(){priceEl.classList.remove("flash-up","flash-down");},450);
+  }
+}
+function applyQuote(sym,q){
+  if(!q||q.c==null||(q.c===0&&!q.pc))return;
+  state[sym].pc=q.pc;
+  var d=q.d,dp=q.dp;
+  if((d==null||dp==null)&&q.pc){d=q.c-q.pc;dp=q.pc?(d/q.pc)*100:0;}
+  render(sym,q.c,d,dp,false);
+}
+function applyTrade(sym,p){
+  var st=state[sym];if(!st)return;
+  if(st.pc==null){render(sym,p,null,null,true);return;}
+  var d=p-st.pc,dp=st.pc?(d/st.pc)*100:0;
+  render(sym,p,d,dp,true);
+}
+function poll(){
+  tiles.forEach(function(el){
+    var sym=el.dataset.sym;
+    fetch("https://finnhub.io/api/v1/quote?symbol="+encodeURIComponent(sym)+"&token="+encodeURIComponent(KEY))
+      .then(function(r){return r.json();})
+      .then(function(q){applyQuote(sym,q);})
+      .catch(function(){});
+  });
+}
+poll();
+setInterval(poll,15000);
+function connect(){
+  var ws=new WebSocket("wss://ws.finnhub.io?token="+encodeURIComponent(KEY));
+  ws.onopen=function(){
+    tiles.forEach(function(el){ws.send(JSON.stringify({type:"subscribe",symbol:el.dataset.sym}));});
+  };
+  ws.onmessage=function(ev){
+    var msg;try{msg=JSON.parse(ev.data);}catch(e){return;}
+    if(msg.type==="trade"&&msg.data){
+      msg.data.forEach(function(t){if(t&&t.s&&t.p!=null)applyTrade(t.s,t.p);});
+    }
+  };
+  ws.onclose=function(){setTimeout(connect,2000);};
+  ws.onerror=function(){try{ws.close();}catch(e){}};
+}
+connect();
+})();
+</script>
+</body></html>
