@@ -258,7 +258,7 @@ function card(lab,val,d1,date,kind,unit,dp,tv,foot){ // kind: 'y' randament (sus
  var c=Math.abs(d1)<0.005?MU:(kind==='a'?(d1>0?G:R):kind==='y'?(d1>0?R:G):W);
  var a=Math.abs(d1)<0.005?arr('right',MU):arr(d1>0?'up':'down',c);
  var body='<div class="kc-v">'+val+'</div><div class="kc-d">'+a+' <b style="color:'+c+'">'+sg(d1,dp)+unit+'</b> <span>1 lună</span></div>'+(foot!=null?foot:'<div class="kc-dt">'+fd(date)+'</div>');
- if(tv) return '<div class="mb-glass kc-c kc-live"><div class="kc-l">'+lab+'</div><div class="kc-tv" data-sym="'+tv+'"></div><div class="kc-fb">'+body+'</div></div>';
+ if(false&&tv) return '<div class="mb-glass kc-c kc-live"><div class="kc-l">'+lab+'</div><div class="kc-tv" data-sym="'+tv+'"></div><div class="kc-fb">'+body+'</div></div>';
  return '<div class="mb-glass kc-c"><div class="kc-l">'+lab+'</div>'+body+'</div>';}
 var fed=S.DFEDTARU, fl=fed[fed.length-1], f1=at(fed,back1m(fl[0]))[1];
 var sp=m10[L]-m2[L], sp1=m10[L1]-m2[L1];
