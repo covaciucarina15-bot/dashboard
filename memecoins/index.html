@@ -260,16 +260,16 @@ function arr(dir,c,n){var rot={up:0,down:180,right:90}[dir];var one='<svg width=
 var m2=map(S.DGS2),m10=map(S.DGS10),m30=map(S.DGS30);
 var com=Object.keys(m2).filter(function(d){return (d in m10)&&(d in m30);}).sort(), L=com[com.length-1];
 var L1=at(com.map(function(d){return [d,0];}),back1m(L))[0];
-function card(lab,val,d1,date,kind,unit,dp,tv,foot){ // kind: 'y' randament (sus=roșu), 'a' activ (sus=verde), 'n' neutru
+function card(lab,val,d1,date,kind,unit,dp,tv,foot,per){ // kind: 'y' randament (sus=roșu), 'a' activ (sus=verde), 'n' neutru
  var c=Math.abs(d1)<0.005?MU:(kind==='a'?(d1>0?G:R):kind==='y'?(d1>0?R:G):W);
  var a=Math.abs(d1)<0.005?arr('right',MU):arr(d1>0?'up':'down',c);
- var body='<div class="kc-v">'+val+'</div><div class="kc-d">'+a+' <b style="color:'+c+'">'+sg(d1,dp)+unit+'</b> <span>1 lună</span></div>'+(foot!=null?foot:'<div class="kc-dt">'+fd(date)+'</div>');
+ var body='<div class="kc-v">'+val+'</div><div class="kc-d">'+a+' <b style="color:'+c+'">'+sg(d1,dp)+unit+'</b> <span>'+(per||'1 lună')+'</span></div>'+(foot!=null?foot:'<div class="kc-dt">'+fd(date)+'</div>');
  if(false&&tv) return '<div class="mb-glass kc-c kc-live"><div class="kc-l">'+lab+'</div><div class="kc-tv" data-sym="'+tv+'"></div><div class="kc-fb">'+body+'</div></div>';
  return '<div class="mb-glass kc-c"><div class="kc-l">'+lab+'</div>'+body+'</div>';}
-var fed=S.DFEDTARU, fl=fed[fed.length-1], f1=at(fed,back1m(fl[0]))[1];
+var fed=S.DFEDTARU, fl=fed[fed.length-1], f1=fl[1];for(var fi=fed.length-1;fi>=0;fi--){if(Math.abs(fed[fi][1]-fl[1])>0.001){f1=fed[fi][1];break;}}
 var sp=m10[L]-m2[L], sp1=m10[L1]-m2[L1];
 var now=Date.now(),fo=FOMC.filter(function(x){return eod(x[0])>now;})[0];
-var h=card('Dobânda Fed',fn(fl[1])+'%',fl[1]-f1,fl[0],'y',' pp',null,null,'<div class="kc-nx">'+(fo?'următoarea ședință: '+fo[2].split('–').pop():'următoarea ședință: dată neconfirmată')+'</div>')
+var h=card('Dobânda Fed',fn(fl[1])+'%',fl[1]-f1,fl[0],'y',' pp',null,null,'<div class="kc-nx">'+(fo?'următoarea ședință: '+fo[2].split('–').pop():'următoarea ședință: dată neconfirmată')+'</div>','ultima schimbare')
  +card('2 ani',fn(m2[L])+'%',m2[L]-m2[L1],L,'y',' pp')
  +card('10 ani',fn(m10[L])+'%',m10[L]-m10[L1],L,'y',' pp')
  +card('30 ani',fn(m30[L])+'%',m30[L]-m30[L1],L,'y',' pp')
