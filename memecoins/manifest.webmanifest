@@ -1,4 +1,5 @@
 {
+ "id": "./",
  "name": "KishaStreet",
  "short_name": "KishaStreet",
  "start_url": "./#kishastreet",
@@ -25,5 +26,6 @@
    "type": "image/png",
    "purpose": "maskable"
   }
- ]
+ ],
+ "description": "KishaStreet"
 }
