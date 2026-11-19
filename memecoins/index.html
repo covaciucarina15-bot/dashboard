@@ -201,7 +201,7 @@ noscript{display:block;padding:20px;color:#FF8A8A}
 <div id="view-memecoins" class="kd-view">
 <div id="root"></div>
 <noscript>Pagina are nevoie de JavaScript.</noscript>
-<div class="lv-foot">Construit 19.11.2026 21:52 din page_v34.txt · date de analiză din 18.11.2026, 13:41 (datele din 18.11 13:05–13:41; deținători fomo verificați la 13:58; monedele noi nu au încă teze fomo) · date de piață live din DexScreener (rezervă GeckoTerminal) · <a href="https://cursor.com/canvas/store-23f08fc3-131b-4d2e-abc3-af2a17e3ce3c/12de299e-a40b-4137-b655-f0daa107d9e9" target="_blank" rel="noopener">pagina canvas</a> · Nu e sfat financiar.</div>
+<div class="lv-foot">Construit 19.11.2026 22:01 din page_v34.txt · date de analiză din 18.11.2026, 13:41 (datele din 18.11 13:05–13:41; deținători fomo verificați la 13:58; monedele noi nu au încă teze fomo) · date de piață live din DexScreener (rezervă GeckoTerminal) · <a href="https://cursor.com/canvas/store-23f08fc3-131b-4d2e-abc3-af2a17e3ce3c/12de299e-a40b-4137-b655-f0daa107d9e9" target="_blank" rel="noopener">pagina canvas</a> · Nu e sfat financiar.</div>
 </div>
 <section id="view-kishastreet" class="kd-view" hidden>
 <div class="kd-ph" style="padding-top:18px">
@@ -266,27 +266,28 @@ document.getElementById('kc-src').textContent='Sursa: FRED (randamente până la
 function yoyList(k){var c=map(S[k]),ks=Object.keys(c).sort(),o=[];ks.forEach(function(d){var pd=(+d.slice(0,4)-1)+d.slice(4);if(pd in c)o.push([d,(c[d]/c[pd]-1)*100]);});return {l:o,last:ks[ks.length-1]};}
 function evc(lab,val,prev,d,kind){ // kind 'bad' = sus e rău (roșu), 'good' = sus e bine (verde)
  var up=d>0.0001,dn=d<-0.0001,c=!up&&!dn?MU:((up)===(kind==='good')?G:R);
- return '<div class="mb-glass kc-c kc-e"><div class="kc-et">'+lab+'</div><div class="kc-ev2">'+val+'</div><div class="kc-ep" style="color:'+c+'">'+prev+' '+(up?arr('up',c):dn?arr('down',c):arr('right',MU))+'</div></div>';}
+ return '<div class="mb-glass kc-c kc-e"><div class="kc-et">'+lab+'</div><div class="kc-ev2">'+val+'</div><div class="kc-ep" style="color:'+c+'"><span class="kc-mut">anterior</span> '+prev+' '+(up?arr('up',c):dn?arr('down',c):arr('right',MU))+'</div></div>';}
 var cpi=yoyList('CPIAUCSL'),core=yoyList('CPILFESL');
 var c1=cpi.l[cpi.l.length-1],c0=cpi.l[cpi.l.length-2],k1=core.l[core.l.length-1],k0=core.l[core.l.length-2];
 var U=S.UNRATE,u1=U[U.length-1],u0=U[U.length-2];
 var P=S.PAYEMS,n1=[P[P.length-1][0],P[P.length-1][1]-P[P.length-2][1]],n0=[P[P.length-2][0],P[P.length-2][1]-P[P.length-3][1]];
 var fi=fed.length-1;while(fi>0&&fed[fi][1]===fl[1])fi--;var fprev=fed[fi][1],fchg=fed[fi+1][0];
 function r1(v){return Math.round(v*10)/10;} // rotunjire BLS: 1 zecimală
-function k1f(v){return (v<0?'−':'')+fn(Math.abs(v),1)+'K';}
-var FOMC=[['2026-12-09T19:00:00Z','09.12.2026','8–9 dec'],['2027-01-27T19:00:00Z','27.01.2027','26–27 ian']];
-var now=Date.now(),fo=FOMC.filter(function(x){return Date.parse(x[0])+6*3600e3>now;})[0];
+function k1f(v){var r=Math.round(v);return (r>0?'+':r<0?'−':'')+Math.abs(r)+'K';}
+var FOMC=[['2026-12-09','09.12.2026','8–9 dec'],['2027-01-27','27.01.2027','26–27 ian']];
+function eod(d){return Date.parse(d+'T23:59:59+01:00');} // dispare după sfârșitul zilei (ora Germaniei)
+var now=Date.now(),fo=FOMC.filter(function(x){return eod(x[0])>now;})[0];
 var h2=evc('Inflația anuală (CPI)',fn(r1(c1[1]),1)+'%',fn(r1(c0[1]),1)+'%',r1(c1[1])-r1(c0[1]),'bad')
  +evc('Inflația de bază (Core CPI)',fn(r1(k1[1]),1)+'%',fn(r1(k0[1]),1)+'%',r1(k1[1])-r1(k0[1]),'bad')
  +evc('Șomaj',fn(u1[1],1)+'%',fn(u0[1],1)+'%',u1[1]-u0[1],'bad')
  +evc('Locuri de muncă noi (NFP)',k1f(n1[1]),k1f(n0[1]),n1[1]-n0[1],'good')
  +evc('Dobânda Fed',fn(fl[1])+'%',fn(fprev)+'%',fl[1]-fprev,'bad')
- +'<div class="mb-glass kc-c kc-e"><div class="kc-et">Ședința Fed (FOMC)</div><div class="kc-ev2">'+(fo?fo[1]:'—')+'</div><div class="kc-ep" style="color:#94C0FD">'+(fo?'20:00 Berlin':'dată neconfirmată')+'</div></div>';
+ +'<div class="mb-glass kc-c kc-e"><div class="kc-et">Ședința Fed (FOMC)</div><div class="kc-ev2">'+(fo?fo[1]:'—')+'</div><div class="kc-ep" style="color:#94C0FD">'+(fo?fo[2]:'dată neconfirmată')+'</div></div>';
 document.getElementById('kc-ev').innerHTML=h2;
-var REL={nfp:[['2026-12-04T13:30:00Z','4 dec 14:30'],['2027-01-08T13:30:00Z','8 ian 14:30']],cpi:[['2026-12-10T13:30:00Z','10 dec 14:30'],['2027-01-13T13:30:00Z','13 ian 14:30']]};
-function nx(a){var x=a.filter(function(r){return Date.parse(r[0])+6*3600e3>now;})[0];return x?x[1]:'dată neconfirmată';}
+var REL={nfp:[['2026-12-04','4 dec'],['2027-01-08','8 ian']],cpi:[['2026-12-10','10 dec'],['2027-01-13','13 ian']]};
+function nx(a){var x=a.filter(function(r){return eod(r[0])>now;})[0];return x?x[1]:'dată neconfirmată';}
 var miss=cpi.last!==c1[0]?' (lipsește '+fm(cpi.last)+' '+(+cpi.last.slice(0,4)-1)+' în FRED)':'';
-document.getElementById('kc-calsrc').innerHTML='Luni: CPI și Core CPI anual '+fm(c1[0])+' (ant. '+fm(c0[0])+')'+miss+' · șomaj și NFP '+fm(u1[0])+' (ant. '+fm(u0[0])+') · Fed din '+fds(fchg)+' (ant. '+fn(fprev)+'%)'+(fo?' · FOMC '+fo[2]+', decizia la 20:00':'')+' · Următoarele publicări (ora Berlin): NFP '+nx(REL.nfp)+', CPI '+nx(REL.cpi)+' · Sursă: FRED.';
+document.getElementById('kc-calsrc').innerHTML='Perioada datelor: CPI și Core CPI anual '+fm(c1[0])+' (ant. '+fm(c0[0])+')'+miss+' · șomaj și NFP '+fm(u1[0])+' (ant. '+fm(u0[0])+') · Fed din '+fds(fchg)+' (ant. '+fn(fprev)+'%)'+(fo?' · FOMC '+fo[2]+', decizia: '+fo[2].split('–').pop():'')+' · Următoarele publicări: NFP '+nx(REL.nfp)+', CPI '+nx(REL.cpi)+' · Sursă: FRED.';
 })();
 </script>
 <section class="gc-section" id="ks-scenarii">
