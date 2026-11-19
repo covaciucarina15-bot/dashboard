@@ -1,0 +1,43 @@
+name: Kishastreet date
+
+on:
+  schedule:
+    - cron: "30 0 * * *"
+    - cron: "30 12 * * *"
+    - cron: "0 15 * * *"
+    - cron: "30 22 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kishastreet-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Descarcă datele (FRED, Trezoreria SUA, Yahoo TLT)
+        run: python3 memecoins/ks/update_data.py
+
+      - name: Commit doar dacă data.json s-a schimbat
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add memecoins/ks/data.json
+          if git diff --cached --quiet; then
+            echo "Date neschimbate, nimic de publicat."
+            exit 0
+          fi
+          git commit -m "Kishastreet: date actualizate automat"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
