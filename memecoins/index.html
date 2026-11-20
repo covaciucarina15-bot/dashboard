@@ -382,7 +382,7 @@ if(window.fetch&&EF&&EF.series)fetch('ks/data.json?t='+Date.now(),{cache:'no-sto
   var flat=!(chp!=null&&Math.abs(chp)>=0.02);
   var c=flat?MU:(ch>0?G:R);
   var a=flat?arr('right',MU):arr(ch>0?'up':'down',c);
-  var line=flat?'':' '+a+' <b style="color:#fff">'+sg(ch,dp)+' ('+sg(chp,2)+'%)</b>';
+  var line=flat?'':' '+a+' <b style="color:'+c+'">'+sg(ch,dp)+' ('+sg(chp,2)+'%)</b>';
   if(flat&&ch!=null) line=' '+a+' <b style="color:'+MU+'">'+sg(ch,dp)+' ('+sg(chp==null?0:chp,2)+'%)</b>';
   return '<div class="mb-glass kc-c"><div class="kc-l">'+lab+'</div><div class="kc-v km-v">$'+fnr(it.px,dp)+'</div><div class="kc-d">'+line+'</div></div>';
  }
