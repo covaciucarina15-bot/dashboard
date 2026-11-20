@@ -198,6 +198,7 @@ noscript{display:block;padding:20px;color:#FF8A8A}
 .km-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 @media (max-width:1100px){.km-cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:640px){.km-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
+<style>#km-cards .km-v{font-size:30px;line-height:36px;color:#fff}#km-cards .kc-d{font-size:14px}@media(max-width:700px){#km-cards .km-v{font-size:25px;line-height:31px}}</style>
 </head>
 <body>
 <nav class="kd-menu" aria-label="Secțiuni"><div class="kd-menu-in">
@@ -381,9 +382,9 @@ if(window.fetch&&EF&&EF.series)fetch('ks/data.json?t='+Date.now(),{cache:'no-sto
   var flat=!(chp!=null&&Math.abs(chp)>=0.02);
   var c=flat?MU:(ch>0?G:R);
   var a=flat?arr('right',MU):arr(ch>0?'up':'down',c);
-  var line=flat?'':' '+a+' <b style="color:'+c+'">'+sg(ch,dp)+' ('+sg(chp,2)+'%)</b>';
+  var line=flat?'':' '+a+' <b style="color:#fff">'+sg(ch,dp)+' ('+sg(chp,2)+'%)</b>';
   if(flat&&ch!=null) line=' '+a+' <b style="color:'+MU+'">'+sg(ch,dp)+' ('+sg(chp==null?0:chp,2)+'%)</b>';
-  return '<div class="mb-glass kc-c"><div class="kc-l">'+lab+'</div><div class="kc-v">$'+fnr(it.px,dp)+'</div><div class="kc-d">'+line+'</div></div>';
+  return '<div class="mb-glass kc-c"><div class="kc-l">'+lab+'</div><div class="kc-v km-v">$'+fnr(it.px,dp)+'</div><div class="kc-d">'+line+'</div></div>';
  }
  function render(){
   var el=document.getElementById('km-cards'); if(!el) return;
