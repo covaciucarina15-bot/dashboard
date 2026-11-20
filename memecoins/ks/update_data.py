@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Kishastreet: actualizare automată a datelor (rulează în GitHub Actions, doar biblioteca standard, fără chei API).
-Scrie memecoins/ks/data.json = {"fred": {fetched, series}, "tlt": {...}, "fc": {cpi, core, unrate, nfp, fed}, "updated": ISO UTC}.
+Scrie memecoins/ks/data.json = {"fred": {fetched, series}, "tlt": {...}, "fc": {cpi, core, unrate, nfp, fed}, "mk": {materii prime Yahoo}, "updated": ISO UTC}.
 - FRED: CSV public fredgraph (aceleași serii ca kishastreet/fetch_fred.py).
 - US Treasury Daily Par Yield Curve: completează DGS2/10/30 cu zilele mai noi decât FRED (dacă e coerent).
 - TLT: Yahoo Finance chart API (închideri zilnice; bara zilei curente e scoasă cât timp piața e deschisă).
+- Materii prime (mk): Yahoo Finance futures GC=F, SI=F, CL=F, BZ=F, PL=F, PA=F, HG=F (preț + închiderea anterioară).
 Dacă o sursă eșuează, se păstrează ultimele valori bune din data.json existent. Ieșire mereu cu cod 0."""
-import csv, io, json, os, sys, time, datetime as dt, urllib.request
+import csv, io, json, os, sys, time, datetime as dt, urllib.request, urllib.parse, http.cookiejar
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "data.json")
@@ -179,12 +180,94 @@ except Exception as e:
     old = pfc.get("fed")
     if old and old.get("date", "") >= today.isoformat(): fc["fed"] = old
 
+# --- Materii prime (Yahoo Finance futures)
+# GC=F aur, SI=F argint, CL=F WTI, BZ=F Brent, PL=F platină, PA=F paladiu, HG=F cupru
+MK_Y = [("gold","GC=F",2),("silver","SI=F",3),("wti","CL=F",2),("brent","BZ=F",2),("plat","PL=F",2),("pall","PA=F",2),("copper","HG=F",4)]
+pmk = (prev.get("mk") or {}).get("items") or {}
+_yahoo_opener = None
+_yahoo_crumb = None
+def yahoo_body(url):
+    """Yahoo poate răspunde 429 fără cookie; atunci folosim crumb + cookie de la fc.yahoo.com."""
+    global _yahoo_opener, _yahoo_crumb
+    try:
+        return get(url, ua="Mozilla/5.0")
+    except Exception as e1:
+        if _yahoo_opener is None:
+            cj = http.cookiejar.CookieJar()
+            _yahoo_opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+            try:
+                _yahoo_opener.open(urllib.request.Request("https://fc.yahoo.com/", headers={"User-Agent": "Mozilla/5.0"}), timeout=20).read()
+            except Exception as e:
+                log("yahoo cookie:", e)
+            try:
+                _yahoo_crumb = _yahoo_opener.open(urllib.request.Request("https://query1.finance.yahoo.com/v1/test/getcrumb", headers={"User-Agent": "Mozilla/5.0"}), timeout=20).read().decode("utf-8", "replace")
+            except Exception as e:
+                _yahoo_crumb = ""
+                log("yahoo crumb:", e)
+            if not _yahoo_crumb or "Unauthorized" in _yahoo_crumb or len(_yahoo_crumb) > 80:
+                raise RuntimeError(f"yahoo 429 și crumb invalid ({e1}); crumb={(_yahoo_crumb or '')[:80]}")
+        sep = "&" if "?" in url else "?"
+        req = urllib.request.Request(url + sep + "crumb=" + urllib.parse.quote(_yahoo_crumb), headers={"User-Agent": "Mozilla/5.0"})
+        with _yahoo_opener.open(req, timeout=40) as r:
+            return r.read().decode("utf-8", "replace")
+
+mk_items = {}
+mk_failed = []
+for key, sym, dp in MK_Y:
+    try:
+        url = "https://query1.finance.yahoo.com/v8/finance/chart/" + urllib.parse.quote(sym, safe="") + "?range=5d&interval=1d"
+        r = json.loads(yahoo_body(url))["chart"]["result"][0]
+        meta = r["meta"]
+        off = meta.get("gmtoffset", 0)
+        px = meta.get("regularMarketPrice")
+        if px is None: px = meta.get("fulldayPrice")
+        ch = meta.get("fulldayChange")
+        chp = meta.get("fulldayChangePercent")
+        if chp is None: chp = meta.get("regularMarketChangePercent")
+        if px is None:
+            raise RuntimeError("fără preț")
+        if ch is None and chp is not None:
+            prev_px = px / (1 + chp / 100.0) if chp != -100 else None
+            ch = (px - prev_px) if prev_px is not None else None
+        if chp is None and ch is not None and (px - ch) != 0:
+            chp = 100.0 * ch / (px - ch)
+        if ch is None or chp is None:
+            # rezervă: ultimele două închideri zilnice
+            rows = []
+            for ts, c in zip(r.get("timestamp") or [], (r.get("indicators") or {}).get("quote", [{}])[0].get("close") or []):
+                if c is None: continue
+                rows.append((dt.datetime.fromtimestamp(ts + off, UTC).strftime("%Y-%m-%d"), c))
+            rmt = meta.get("regularMarketTime")
+            last_d = dt.datetime.fromtimestamp(rmt + off, UTC).strftime("%Y-%m-%d") if rmt else (rows[-1][0] if rows else None)
+            prev_px = None
+            for d, c in reversed(rows):
+                if last_d and d < last_d:
+                    prev_px = c; break
+            if prev_px is None and len(rows) >= 2: prev_px = rows[-2][1]
+            if prev_px is None: raise RuntimeError("fără închiderea anterioară")
+            ch = px - prev_px
+            chp = 100.0 * ch / prev_px if prev_px else None
+        prev_px = px - ch if ch is not None else None
+        rmt = meta.get("regularMarketTime")
+        day = dt.datetime.fromtimestamp(rmt + off, UTC).strftime("%Y-%m-%d") if rmt else None
+        item = {"sym": sym, "px": round(float(px), dp), "prev": round(float(prev_px), dp) if prev_px is not None else None,
+                "chg": round(float(ch), dp), "chp": round(float(chp), 3), "date": day}
+        mk_items[key] = item
+        log("mk", key, item)
+    except Exception as e:
+        mk_failed.append(sym); log("mk eșuat", sym, e)
+        if pmk.get(key) and pmk[key].get("px") is not None:
+            mk_items[key] = pmk[key]
+if mk_failed:
+    failed.extend(mk_failed)
+mk = {"fetched": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z"), "source": "Yahoo Finance", "items": mk_items} if mk_items else (prev.get("mk") or {})
+
 if not series and not tlt:
     log("nimic descărcat și nimic salvat: nu scriu data.json"); sys.exit(0)
 
 def strip(o):  # câmpurile de timp nu intră în comparație (commit doar dacă datele s-au schimbat)
-    return {"fc": o.get("fc"), "fred": {"series": (o.get("fred") or {}).get("series")}, "tlt": {k: v for k, v in (o.get("tlt") or {}).items() if k != "fetched"}}
-new = {"fred": {"fetched": now_utc.strftime("%Y-%m-%d %H:%M"), "series": series}, "tlt": tlt or {}, "fc": fc, "updated": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z")}
+    return {"fc": o.get("fc"), "fred": {"series": (o.get("fred") or {}).get("series")}, "tlt": {k: v for k, v in (o.get("tlt") or {}).items() if k != "fetched"}, "mk": {k: v for k, v in (o.get("mk") or {}).items() if k != "fetched"}}
+new = {"fred": {"fetched": now_utc.strftime("%Y-%m-%d %H:%M"), "series": series}, "tlt": tlt or {}, "fc": fc, "mk": mk, "updated": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z")}
 if prev and strip(prev) == strip(new):
     log("date neschimbate: nu rescriu data.json"); sys.exit(0)
 new["status"] = {"failed": failed, "treasury": treas}
