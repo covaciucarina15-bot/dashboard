@@ -1,0 +1,48 @@
+name: Memecoins date
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# grup separat de „kishastreet-data”: cele două workflow-uri ating fișiere diferite
+# (memecoins/mc/* vs memecoins/ks/data.json) și fac pull --rebase înainte de push, deci nu se pot suprascrie.
+concurrency:
+  group: memecoins-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Descarcă datele (CoinGecko, Binance, Fear & Greed, GeckoTerminal, DexScreener)
+        env:
+          # opțional: dacă e setat secretul X_BEARER_TOKEN, se reîmprospătează și news.json; altfel news.json rămâne neatins
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: python3 memecoins/mc/update_data.py
+
+      - name: Commit doar dacă mc/data.json sau mc/news.json s-au schimbat
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add memecoins/mc/data.json memecoins/mc/news.json
+          if git diff --cached --quiet; then
+            echo "Date neschimbate, nimic de publicat."
+            exit 0
+          fi
+          git commit -m "Memecoins: date actualizate automat"
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin HEAD:"${GITHUB_REF_NAME}" && exit 0
+            echo "push eșuat, reîncerc ($i)"; sleep $((i * 10))
+          done
+          exit 1
