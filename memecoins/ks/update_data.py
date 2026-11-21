@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Kishastreet: actualizare automată a datelor (rulează în GitHub Actions, doar biblioteca standard, fără chei API).
-Scrie memecoins/ks/data.json = {"fred": {fetched, series}, "tlt": {...}, "fc": {cpi, core, unrate, nfp, fed}, "mk": {materii prime Yahoo}, "updated": ISO UTC}.
+Scrie memecoins/ks/data.json = {"fred": {fetched, series}, "tlt": {...}, "fc": {cpi, core, unrate, nfp, fed}, "mk": {materii prime Yahoo}, "fx": {forex și indici Yahoo}, "updated": ISO UTC}.
 - FRED: CSV public fredgraph (aceleași serii ca kishastreet/fetch_fred.py).
 - US Treasury Daily Par Yield Curve: completează DGS2/10/30 cu zilele mai noi decât FRED (dacă e coerent).
 - TLT: Yahoo Finance chart API (închideri zilnice; bara zilei curente e scoasă cât timp piața e deschisă).
 - Materii prime (mk): Yahoo Finance futures GC=F, SI=F, CL=F, BZ=F, PL=F, PA=F, HG=F (preț + închiderea anterioară).
+- Forex și indici (fx): Yahoo Finance ^VIX, DX-Y.NYB, ^NDX, ^GSPC, EURUSD=X, GBPJPY=X, GBPUSD=X, ^GDAXI, ^N225 (preț + închiderea anterioară).
 Dacă o sursă eșuează, se păstrează ultimele valori bune din data.json existent. Ieșire mereu cu cod 0."""
 import csv, io, json, os, sys, time, datetime as dt, urllib.request, urllib.parse, http.cookiejar
 
@@ -183,7 +184,9 @@ except Exception as e:
 # --- Materii prime (Yahoo Finance futures)
 # GC=F aur, SI=F argint, CL=F WTI, BZ=F Brent, PL=F platină, PA=F paladiu, HG=F cupru
 MK_Y = [("gold","GC=F",2),("silver","SI=F",3),("wti","CL=F",2),("brent","BZ=F",2),("plat","PL=F",2),("pall","PA=F",2),("copper","HG=F",4)]
+FX_Y = [("vix","^VIX",2),("dxy","DX-Y.NYB",2),("nas100","^NDX",2),("sp500","^GSPC",2),("eurusd","EURUSD=X",5),("gbpjpy","GBPJPY=X",3),("gbpusd","GBPUSD=X",5),("dax","^GDAXI",2),("nikkei","^N225",2)]
 pmk = (prev.get("mk") or {}).get("items") or {}
+pfx_prev = (prev.get("fx") or {}).get("items") or {}
 _yahoo_opener = None
 _yahoo_crumb = None
 def yahoo_body(url):
@@ -211,63 +214,70 @@ def yahoo_body(url):
         with _yahoo_opener.open(req, timeout=40) as r:
             return r.read().decode("utf-8", "replace")
 
-mk_items = {}
-mk_failed = []
-for key, sym, dp in MK_Y:
-    try:
-        url = "https://query1.finance.yahoo.com/v8/finance/chart/" + urllib.parse.quote(sym, safe="") + "?range=5d&interval=1d"
-        r = json.loads(yahoo_body(url))["chart"]["result"][0]
-        meta = r["meta"]
-        off = meta.get("gmtoffset", 0)
-        px = meta.get("regularMarketPrice")
-        if px is None: px = meta.get("fulldayPrice")
-        ch = meta.get("fulldayChange")
-        chp = meta.get("fulldayChangePercent")
-        if chp is None: chp = meta.get("regularMarketChangePercent")
-        if px is None:
-            raise RuntimeError("fără preț")
-        if ch is None and chp is not None:
-            prev_px = px / (1 + chp / 100.0) if chp != -100 else None
-            ch = (px - prev_px) if prev_px is not None else None
-        if chp is None and ch is not None and (px - ch) != 0:
-            chp = 100.0 * ch / (px - ch)
-        if ch is None or chp is None:
-            # rezervă: ultimele două închideri zilnice
-            rows = []
-            for ts, c in zip(r.get("timestamp") or [], (r.get("indicators") or {}).get("quote", [{}])[0].get("close") or []):
-                if c is None: continue
-                rows.append((dt.datetime.fromtimestamp(ts + off, UTC).strftime("%Y-%m-%d"), c))
+def yahoo_quotes(pairs, prev_items, tag):
+    items, failed = {}, []
+    for key, sym, dp in pairs:
+        try:
+            url = "https://query1.finance.yahoo.com/v8/finance/chart/" + urllib.parse.quote(sym, safe="") + "?range=5d&interval=1d"
+            r = json.loads(yahoo_body(url))["chart"]["result"][0]
+            meta = r["meta"]
+            off = meta.get("gmtoffset", 0)
+            px = meta.get("regularMarketPrice")
+            if px is None: px = meta.get("fulldayPrice")
+            ch = meta.get("fulldayChange")
+            chp = meta.get("fulldayChangePercent")
+            if chp is None: chp = meta.get("regularMarketChangePercent")
+            if px is None:
+                raise RuntimeError("fără preț")
+            if ch is None and chp is not None:
+                prev_px = px / (1 + chp / 100.0) if chp != -100 else None
+                ch = (px - prev_px) if prev_px is not None else None
+            if chp is None and ch is not None and (px - ch) != 0:
+                chp = 100.0 * ch / (px - ch)
+            if ch is None or chp is None:
+                # rezervă: ultimele două închideri zilnice
+                rows = []
+                for ts, c in zip(r.get("timestamp") or [], (r.get("indicators") or {}).get("quote", [{}])[0].get("close") or []):
+                    if c is None: continue
+                    rows.append((dt.datetime.fromtimestamp(ts + off, UTC).strftime("%Y-%m-%d"), c))
+                rmt = meta.get("regularMarketTime")
+                last_d = dt.datetime.fromtimestamp(rmt + off, UTC).strftime("%Y-%m-%d") if rmt else (rows[-1][0] if rows else None)
+                prev_px = None
+                for d, c in reversed(rows):
+                    if last_d and d < last_d:
+                        prev_px = c; break
+                if prev_px is None and len(rows) >= 2: prev_px = rows[-2][1]
+                if prev_px is None: raise RuntimeError("fără închiderea anterioară")
+                ch = px - prev_px
+                chp = 100.0 * ch / prev_px if prev_px else None
+            prev_px = px - ch if ch is not None else None
             rmt = meta.get("regularMarketTime")
-            last_d = dt.datetime.fromtimestamp(rmt + off, UTC).strftime("%Y-%m-%d") if rmt else (rows[-1][0] if rows else None)
-            prev_px = None
-            for d, c in reversed(rows):
-                if last_d and d < last_d:
-                    prev_px = c; break
-            if prev_px is None and len(rows) >= 2: prev_px = rows[-2][1]
-            if prev_px is None: raise RuntimeError("fără închiderea anterioară")
-            ch = px - prev_px
-            chp = 100.0 * ch / prev_px if prev_px else None
-        prev_px = px - ch if ch is not None else None
-        rmt = meta.get("regularMarketTime")
-        day = dt.datetime.fromtimestamp(rmt + off, UTC).strftime("%Y-%m-%d") if rmt else None
-        item = {"sym": sym, "px": round(float(px), dp), "prev": round(float(prev_px), dp) if prev_px is not None else None,
-                "chg": round(float(ch), dp), "chp": round(float(chp), 3), "date": day}
-        mk_items[key] = item
-        log("mk", key, item)
-    except Exception as e:
-        mk_failed.append(sym); log("mk eșuat", sym, e)
-        if pmk.get(key) and pmk[key].get("px") is not None:
-            mk_items[key] = pmk[key]
+            day = dt.datetime.fromtimestamp(rmt + off, UTC).strftime("%Y-%m-%d") if rmt else None
+            item = {"sym": sym, "px": round(float(px), dp), "prev": round(float(prev_px), dp) if prev_px is not None else None,
+                    "chg": round(float(ch), dp), "chp": round(float(chp), 3), "date": day}
+            items[key] = item
+            log(tag, key, item)
+        except Exception as e:
+            failed.append(sym); log(tag + " eșuat", sym, e)
+            if prev_items.get(key) and prev_items[key].get("px") is not None:
+                items[key] = prev_items[key]
+    return items, failed
+
+mk_items, mk_failed = yahoo_quotes(MK_Y, pmk, "mk")
 if mk_failed:
     failed.extend(mk_failed)
 mk = {"fetched": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z"), "source": "Yahoo Finance", "items": mk_items} if mk_items else (prev.get("mk") or {})
+fx_items, fx_failed = yahoo_quotes(FX_Y, pfx_prev, "fx")
+if fx_failed:
+    failed.extend(fx_failed)
+fx = {"fetched": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z"), "source": "Yahoo Finance", "items": fx_items} if fx_items else (prev.get("fx") or {})
 
 if not series and not tlt:
     log("nimic descărcat și nimic salvat: nu scriu data.json"); sys.exit(0)
 
 def strip(o):  # câmpurile de timp nu intră în comparație (commit doar dacă datele s-au schimbat)
-    return {"fc": o.get("fc"), "fred": {"series": (o.get("fred") or {}).get("series")}, "tlt": {k: v for k, v in (o.get("tlt") or {}).items() if k != "fetched"}, "mk": {k: v for k, v in (o.get("mk") or {}).items() if k != "fetched"}}
-new = {"fred": {"fetched": now_utc.strftime("%Y-%m-%d %H:%M"), "series": series}, "tlt": tlt or {}, "fc": fc, "mk": mk, "updated": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z")}
+    return {"fc": o.get("fc"), "fred": {"series": (o.get("fred") or {}).get("series")}, "tlt": {k: v for k, v in (o.get("tlt") or {}).items() if k != "fetched"}, "mk": {k: v for k, v in (o.get("mk") or {}).items() if k != "fetched"}, "fx": {k: v for k, v in (o.get("fx") or {}).items() if k != "fetched"}}
+new = {"fred": {"fetched": now_utc.strftime("%Y-%m-%d %H:%M"), "series": series}, "tlt": tlt or {}, "fc": fc, "mk": mk, "fx": fx, "updated": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z")}
 if prev and strip(prev) == strip(new):
     log("date neschimbate: nu rescriu data.json"); sys.exit(0)
 new["status"] = {"failed": failed, "treasury": treas}
