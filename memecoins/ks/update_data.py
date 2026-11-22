@@ -114,6 +114,7 @@ except Exception as e:
 import html as _html, re as _re
 CHROME = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
 MONRO = ['ian','feb','mar','apr','mai','iun','iul','aug','sep','oct','nov','dec']
+MONEN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]  # etichete fc afișate pe pagină (EN)
 MONEN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 def num(s):
     m = _re.search(r'-?\d+(?:\.\d+)?', (s or '').replace(',', ''))
@@ -142,13 +143,13 @@ for key, (slug, name, ffname) in TE.items():
     if nxt:
         ref = nxt[3]; mi = MONEN.index(ref) + 1 if ref in MONEN else None
         y = int(nxt[0][:4]) - (1 if mi and mi > int(nxt[0][5:7]) else 0)
-        item = {"date": nxt[0], "for": (MONRO[mi - 1] + ' ' + str(y)) if mi else ref, "value": None, "src": None}
+        item = {"date": nxt[0], "for": (MONEN[mi - 1] + ' ' + str(y)) if mi else ref, "value": None, "src": None}
         if num(nxt[6]) is not None: item.update(value=num(nxt[6]), src="Trading Economics (consens)")
         if item["value"] is None and ffname:
             for e in ff:
                 if e.get("title") == ffname and e.get("date", "")[:10] == nxt[0] and num(e.get("forecast")) is not None:
                     item.update(value=num(e["forecast"]), src="ForexFactory (consens)"); break
-        if item["value"] is None and num(nxt[7]) is not None: item.update(value=num(nxt[7]), src="Trading Economics (prognoză TE)")
+        if item["value"] is None and num(nxt[7]) is not None: item.update(value=num(nxt[7]), src="Trading Economics (TE forecast)")
     old = pfc.get(key)
     if old and old.get("value") is not None and old.get("date", "") >= today.isoformat() and (not item or (item["date"] == old["date"] and item["value"] is None)):
         item = old  # ultima valoare bună pentru aceeași publicare
@@ -175,8 +176,8 @@ try:
     mv = (1 if kind == "Hike" else -1) * int(bp) / 100
     cur = series["DFEDTARU"][-1][1] if series.get("DFEDTARU") else None
     d = best[0][:10]
-    fc["fed"] = {"date": d, "for": f"{int(d[8:])} {MONRO[int(d[5:7]) - 1]} {d[:4]}", "move": mv, "prob": round(pr(top), 2),
-                 "value": round(cur + mv, 2) if cur is not None else None, "src": "Kalshi (piața de predicție)"}
+    fc["fed"] = {"date": d, "for": f"{MONEN[int(d[5:7]) - 1]} {int(d[8:])}, {d[:4]}", "move": mv, "prob": round(pr(top), 2),
+                 "value": round(cur + mv, 2) if cur is not None else None, "src": "Kalshi (prediction market)"}
     log("forecast fed", fc["fed"])
 except Exception as e:
     log("Kalshi eșuat (păstrez ultima valoare):", e)
@@ -368,7 +369,7 @@ def alt_season(n_want=50, days=90, hist_days=30):
         if len(el) >= 30: hist.append([d, round(100 * sum(1 for r in el if r > rb) / len(el))])
     if not hist: raise RuntimeError("istoric gol")
     return {"v": hist[-1][1], "date": hist[-1][0], "hist": hist, "n": len(coins), "coins": [s for s, _ in coins], "skipped": skipped[:40],
-            "method": "top 50 CoinGecko fără stablecoins/wrapped, randament 90 de zile vs BTC (închideri zilnice Binance)", "src": "calculat (CoinGecko + Binance)"}
+            "method": "top 50 CoinGecko excluding stablecoins/wrapped, 90-day return vs BTC (Binance daily closes)", "src": "computed (CoinGecko + Binance)"}
 
 cr = cr_update(prev.get("cr"))
 
