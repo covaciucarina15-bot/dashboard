@@ -74,12 +74,12 @@ def run(key, fn, ok=lambda v: bool(v)):
         log("EȘUAT", key, e, "(păstrez valoarea veche)" if key in prev else "(nicio valoare veche)")
 
 # ---------- CoinGecko: categorii
-SUBS = [("dog-themed-coins", "Câini"), ("cat-themed-coins", "Pisici"), ("frog-themed-coins", "Broaște"), ("4chan-themed", "4chan"),
-        ("ai-meme-coins", "AI meme"), ("chinese-meme", "Meme chinezești"), ("politifi", "PolitiFi (politică)"),
-        ("celebrity-themed-coins", "Celebrități"), ("ip-meme", "IP meme (personaje, branduri)"), ("tiktok-meme", "TikTok meme"),
-        ("wojak-themed", "Wojak"), ("parody-meme-coins", "Parodii"), ("stock-market-themed", "Teme bursiere"),
-        ("anime-themed-coins", "Anime"), ("zoo-themed", "Animale de zoo"), ("pump-fun", "Ecosistem pump.fun"),
-        ("letsbonk-fun-ecosystem", "Ecosistem bonk.fun"), ("four-meme-ecosystem", "Four.meme (BNB)"),
+SUBS = [("dog-themed-coins", "Dogs"), ("cat-themed-coins", "Cats"), ("frog-themed-coins", "Frogs"), ("4chan-themed", "4chan"),
+        ("ai-meme-coins", "AI meme"), ("chinese-meme", "Chinese memes"), ("politifi", "PolitiFi (politics)"),
+        ("celebrity-themed-coins", "Celebrities"), ("ip-meme", "IP memes (characters, brands)"), ("tiktok-meme", "TikTok meme"),
+        ("wojak-themed", "Wojak"), ("parody-meme-coins", "Parodies"), ("stock-market-themed", "Stock-market themes"),
+        ("anime-themed-coins", "Anime"), ("zoo-themed", "Zoo animals"), ("pump-fun", "pump.fun ecosystem"),
+        ("letsbonk-fun-ecosystem", "bonk.fun ecosystem"), ("four-meme-ecosystem", "Four.meme (BNB)"),
         ("robinhood-chain-meme", "Robinhood Chain meme"), ("bitcoin-meme", "Bitcoin meme"), ("ton-meme-coins", "TON meme"),
         ("sui-meme", "Sui meme"), ("tron-meme", "TRON meme")]
 def cats():
