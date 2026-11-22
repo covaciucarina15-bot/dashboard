@@ -6,6 +6,8 @@ Scrie memecoins/ks/data.json = {"fred": {fetched, series}, "tlt": {...}, "fc": {
 - TLT: Yahoo Finance chart API (închideri zilnice; bara zilei curente e scoasă cât timp piața e deschisă).
 - Materii prime (mk): Yahoo Finance futures GC=F, SI=F, CL=F, BZ=F, PL=F, PA=F, HG=F (preț + închiderea anterioară).
 - Forex și indici (fx): Yahoo Finance ^VIX, DX-Y.NYB, ^NDX, ^GSPC, EURUSD=X, GBPJPY=X, GBPUSD=X, ^GDAXI, ^N225 (preț + închiderea anterioară).
+- Crypto (cr): BTC/ETH/SOL Binance 24h (rezervă TradingView), BTC.D/ETH.D/USDT.D/TOTAL/TOTAL2/TOTAL3/IBIT/ETHA din scanner-ul TradingView
+  (rezervă CoinGecko /global), volum 24h CoinGecko /global, Fear & Greed alternative.me (30 de zile), Altcoin Season calculat (vezi alt_season).
 Dacă o sursă eșuează, se păstrează ultimele valori bune din data.json existent. Ieșire mereu cu cod 0."""
 import csv, io, json, os, sys, time, datetime as dt, urllib.request, urllib.parse, http.cookiejar
 
@@ -272,12 +274,110 @@ if fx_failed:
     failed.extend(fx_failed)
 fx = {"fetched": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z"), "source": "Yahoo Finance", "items": fx_items} if fx_items else (prev.get("fx") or {})
 
+# --- Crypto (cr): TradingView scanner (CRYPTOCAP, ETF-uri), Binance (BTC/ETH/SOL 24h), CoinGecko /global (volum 24h),
+#     alternative.me (Fear & Greed, 30 zile) și Altcoin Season calculat aici (vezi alt_season). Fiecare valoare eșuată păstrează ultima valoare bună.
+def cr_update(prev_cr):
+    pitems = (prev_cr or {}).get("items") or {}
+    items, src_fail = {}, []
+    def jget(url, tries=2):
+        return json.loads(get(url, ua="Mozilla/5.0", timeout=25, tries=tries))
+    def tv(sym):
+        j = jget("https://scanner.tradingview.com/symbol?symbol=" + urllib.parse.quote(sym) + "&fields=close,change,change_abs,volume")
+        if j.get("close") is None: raise RuntimeError("fără close")
+        px, chp, ch = float(j["close"]), j.get("change"), j.get("change_abs")
+        if ch is None and chp is not None: ch = px - px / (1 + chp / 100)
+        return {"px": px, "chg": ch, "chp": chp, "src": "TradingView " + sym}
+    # Binance: variație pe 24 h glisante
+    try:
+        l = jget("https://data-api.binance.vision/api/v3/ticker/24hr?symbols=" + urllib.parse.quote('["BTCUSDT","ETHUSDT","SOLUSDT"]'))
+        for t in l:
+            k = {"BTCUSDT": "btc", "ETHUSDT": "eth", "SOLUSDT": "sol"}.get(t.get("symbol"))
+            if k: items[k] = {"px": float(t["lastPrice"]), "chg": float(t["priceChange"]), "chp": float(t["priceChangePercent"]), "src": "Binance " + t["symbol"]}
+    except Exception as e: log("cr Binance eșuat", e)
+    TVS = {"btc": "CRYPTO:BTCUSD", "eth": "CRYPTO:ETHUSD", "sol": "CRYPTO:SOLUSD", "btcd": "CRYPTOCAP:BTC.D", "ethd": "CRYPTOCAP:ETH.D", "usdtd": "CRYPTOCAP:USDT.D",
+           "total": "CRYPTOCAP:TOTAL", "total2": "CRYPTOCAP:TOTAL2", "total3": "CRYPTOCAP:TOTAL3", "ibit": "NASDAQ:IBIT", "etha": "NASDAQ:ETHA"}
+    for k, sym in TVS.items():
+        if k in items: continue
+        try: items[k] = tv(sym)
+        except Exception as e: log("cr TV eșuat", sym, e)
+        time.sleep(0.3)
+    # CoinGecko /global: volum 24h + rezervă pentru capitalizare și dominanțe
+    try:
+        g = jget("https://api.coingecko.com/api/v3/global")["data"]
+        tm, pc = g["total_market_cap"]["usd"], g.get("market_cap_percentage") or {}
+        items["vol"] = {"px": g["total_volume"]["usd"], "chg": None, "chp": None, "src": "CoinGecko /global"}
+        cg = {"total": (tm, g.get("market_cap_change_percentage_24h_usd")), "btcd": (pc.get("btc"), None), "ethd": (pc.get("eth"), None), "usdtd": (pc.get("usdt"), None)}
+        if pc.get("btc") is not None: cg["total2"] = (tm * (1 - pc["btc"] / 100), None)
+        if pc.get("btc") is not None and pc.get("eth") is not None: cg["total3"] = (tm * (1 - (pc["btc"] + pc["eth"]) / 100), None)
+        for k, (v, chp) in cg.items():
+            if k not in items and v is not None: items[k] = {"px": v, "chg": None, "chp": chp, "src": "CoinGecko /global"}
+    except Exception as e: log("cr CoinGecko global eșuat", e)
+    for k in list(TVS) + ["vol"]:
+        if k not in items:
+            src_fail.append(k)
+            if pitems.get(k): items[k] = pitems[k]
+    out = {"fetched": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z"), "items": items, "failed": src_fail}
+    # Fear & Greed (30 de zile)
+    try:
+        d = jget("https://api.alternative.me/fng/?limit=30").get("data") or []
+        hist = [[dt.datetime.fromtimestamp(int(x["timestamp"]), UTC).strftime("%Y-%m-%d"), int(x["value"])] for x in d][::-1]
+        out["fng"] = {"v": int(d[0]["value"]), "cls": d[0].get("value_classification"), "date": hist[-1][0], "hist": hist, "src": "alternative.me"}
+    except Exception as e:
+        log("cr F&G eșuat", e)
+        if (prev_cr or {}).get("fng"): out["fng"] = prev_cr["fng"]
+    try: out["alt"] = alt_season()
+    except Exception as e:
+        log("cr Altcoin Season eșuat", e)
+        if (prev_cr or {}).get("alt"): out["alt"] = prev_cr["alt"]
+    return out
+
+STABLE = set("usdt usdc usde dai fdusd usds pyusd usd1 tusd busd rlusd usdg susde usdd usdx usdb frax lusd gusd eurc eure usdtb usdf usd0 bfusd usdai usdp buidl ustb ousg xaut paxg u usyc gho".split())  # + tokeni pe aur / fonduri de trezorerie
+WRAP = set("wbtc weth steth wsteth cbbtc weeth reth ezeth meth rseth lbtc solvbtc tbtc cbeth bnsol jitosol msol bsol wbnb wsteth wbeth sweth oseth btcb fbtc clbtc susds sdai".split())
+def alt_season(n_want=50, days=90, hist_days=30):
+    """Metoda Blockchaincenter: din primele 50 de monede (fără stablecoins și tokeni wrapped/staked, fără BTC), câte au crescut
+    mai mult decât BTC în ultimele 90 de zile, în procente (0–100). ≥ 75 = Altcoin season, ≤ 25 = Bitcoin season.
+    Lista: CoinGecko /coins/markets (top 150 după mcap, azi); prețuri: închideri zilnice Binance (perechi USDT), deci monedele fără
+    pereche USDT pe Binance sau cu sub 91 de zile de istoric sunt sărite și se trece la următoarea. Istoricul pe 30 de zile folosește aceeași listă de azi."""
+    mk = json.loads(get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=150&page=1", ua="Mozilla/5.0", timeout=30, tries=2))
+    pairs = {t["symbol"] for t in json.loads(get("https://data-api.binance.vision/api/v3/ticker/price", ua="Mozilla/5.0", timeout=30, tries=2))}
+    def kl(sym):
+        if sym + "USDT" not in pairs: raise RuntimeError("fără pereche USDT pe Binance")
+        j = json.loads(get(f"https://data-api.binance.vision/api/v3/klines?symbol={sym}USDT&interval=1d&limit={days + hist_days + 2}", ua="Mozilla/5.0", timeout=20, tries=2))
+        return [(dt.datetime.fromtimestamp(k[0] / 1000, UTC).strftime("%Y-%m-%d"), float(k[4])) for k in j]
+    btc = kl("BTC")
+    if len(btc) < days + hist_days: raise RuntimeError("istoric BTC prea scurt")
+    dates = [d for d, _ in btc]
+    coins, skipped = [], []
+    for c in mk:
+        s = (c.get("symbol") or "").lower(); cid = c.get("id") or ""
+        if s in STABLE or s in WRAP or s == "btc" or "usd" in s or any(w in cid for w in ("wrapped", "staked", "bridged", "-peg", "tokenized")): continue
+        try:
+            k = dict(kl(s.upper()))
+            if sum(1 for d in dates if d in k) < days + 1: raise RuntimeError("istoric scurt")
+            coins.append((s.upper(), k))
+        except Exception:
+            skipped.append(s.upper())
+        if len(coins) >= n_want: break
+        time.sleep(0.1)
+    if len(coins) < 30: raise RuntimeError(f"doar {len(coins)} monede eligibile")
+    bc = dict(btc); hist = []
+    for i in range(len(dates) - hist_days, len(dates)):
+        d, d0 = dates[i], dates[i - days]
+        rb = bc[d] / bc[d0] - 1
+        el = [(k[d] / k[d0] - 1) for _, k in coins if d in k and d0 in k]
+        if len(el) >= 30: hist.append([d, round(100 * sum(1 for r in el if r > rb) / len(el))])
+    if not hist: raise RuntimeError("istoric gol")
+    return {"v": hist[-1][1], "date": hist[-1][0], "hist": hist, "n": len(coins), "coins": [s for s, _ in coins], "skipped": skipped[:40],
+            "method": "top 50 CoinGecko fără stablecoins/wrapped, randament 90 de zile vs BTC (închideri zilnice Binance)", "src": "calculat (CoinGecko + Binance)"}
+
+cr = cr_update(prev.get("cr"))
+
 if not series and not tlt:
     log("nimic descărcat și nimic salvat: nu scriu data.json"); sys.exit(0)
 
 def strip(o):  # câmpurile de timp nu intră în comparație (commit doar dacă datele s-au schimbat)
-    return {"fc": o.get("fc"), "fred": {"series": (o.get("fred") or {}).get("series")}, "tlt": {k: v for k, v in (o.get("tlt") or {}).items() if k != "fetched"}, "mk": {k: v for k, v in (o.get("mk") or {}).items() if k != "fetched"}, "fx": {k: v for k, v in (o.get("fx") or {}).items() if k != "fetched"}}
-new = {"fred": {"fetched": now_utc.strftime("%Y-%m-%d %H:%M"), "series": series}, "tlt": tlt or {}, "fc": fc, "mk": mk, "fx": fx, "updated": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z")}
+    return {"fc": o.get("fc"), "fred": {"series": (o.get("fred") or {}).get("series")}, "tlt": {k: v for k, v in (o.get("tlt") or {}).items() if k != "fetched"}, "mk": {k: v for k, v in (o.get("mk") or {}).items() if k != "fetched"}, "fx": {k: v for k, v in (o.get("fx") or {}).items() if k != "fetched"}, "cr": {k: v for k, v in (o.get("cr") or {}).items() if k != "fetched"}}
+new = {"fred": {"fetched": now_utc.strftime("%Y-%m-%d %H:%M"), "series": series}, "tlt": tlt or {}, "fc": fc, "mk": mk, "fx": fx, "cr": cr, "updated": now_utc.isoformat(timespec="seconds").replace("+00:00", "Z")}
 if prev and strip(prev) == strip(new):
     log("date neschimbate: nu rescriu data.json"); sys.exit(0)
 new["status"] = {"failed": failed, "treasury": treas}
