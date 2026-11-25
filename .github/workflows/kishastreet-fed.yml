@@ -1,0 +1,44 @@
+name: Kishastreet Fed
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Același grup ca kishastreet-data.yml: ambele scriu memecoins/ks/data.json și fac pull --rebase înainte de push.
+concurrency:
+  group: kishastreet-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Actualizează doar probabilitatea Fed (Kalshi last price)
+        run: python3 memecoins/ks/update_data.py --fed-only
+
+      - name: Commit doar dacă data.json s-a schimbat
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add memecoins/ks/data.json
+          if git diff --cached --quiet; then
+            echo "Date neschimbate, nimic de publicat."
+            exit 0
+          fi
+          git commit -m "Kishastreet: probabilitate Fed actualizată"
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin HEAD:"${GITHUB_REF_NAME}" && exit 0
+            echo "push eșuat, reîncerc ($i)"; sleep $((i * 10))
+          done
+          exit 1
