@@ -8,6 +8,7 @@ Scrie memecoins/ks/data.json = {"fred": {fetched, series}, "tlt": {...}, "fc": {
 - Forex și indici (fx): Yahoo Finance ^VIX, DX-Y.NYB, ^NDX, ^GSPC, EURUSD=X, GBPJPY=X, GBPUSD=X, ^GDAXI, ^N225 (preț + închiderea anterioară).
 - Crypto (cr): BTC/ETH/SOL Binance 24h (rezervă TradingView), BTC.D/ETH.D/USDT.D/TOTAL/TOTAL2/TOTAL3/IBIT/ETHA din scanner-ul TradingView
   (rezervă CoinGecko /global), volum 24h CoinGecko /global, Fear & Greed alternative.me (30 de zile), Altcoin Season calculat (vezi alt_season).
+- --fed-only: actualizează doar fc.fed.prob din last_price_dollars al pieței KXFED-<ședință>-T<prag DFEDTARU>, fără celelalte surse.
 Dacă o sursă eșuează, se păstrează ultimele valori bune din data.json existent. Ieșire mereu cu cod 0."""
 import csv, io, json, os, sys, time, datetime as dt, urllib.request, urllib.parse, http.cookiejar
 
@@ -24,6 +25,7 @@ def log(*a): print(*a, file=sys.stderr, flush=True)
 
 def get(url, ua=None, timeout=40, tries=3):
     # FRED blochează antetele de browser: pentru FRED se folosește User-Agent-ul implicit urllib.
+    # Fără antet Origin: Kalshi răspunde la ticker-ul pieței doar cu User-Agent.
     last = None
     for k in range(tries):
         try:
@@ -34,8 +36,108 @@ def get(url, ua=None, timeout=40, tries=3):
             last = e; log("  retry", k + 1, url[:90], e); time.sleep(3 + 3 * k)
     raise RuntimeError(str(last))
 
+CHROME = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
+FED_MON = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+FED_FALLBACK = "KXFED-26DEC-T4.00"  # doar cât timp ședința din decembrie 2026 e încă viitoare
+
+def fed_event_code(event_ticker):
+    tail = (event_ticker or "").rsplit("-", 1)[-1].upper()
+    if len(tail) == 5 and tail[:2].isdigit() and tail[2:] in FED_MON:
+        return tail
+    return None
+
+def fed_code_from_date(iso_date):
+    y, m, _d = iso_date.split("-")
+    return y[2:] + FED_MON[int(m) - 1]
+
+def fed_upper_bound(series_map):
+    pts = (series_map or {}).get("DFEDTARU") or []
+    if not pts: return None
+    try: return float(pts[-1][1])
+    except Exception: return None
+
+def nearest_open_fed_event():
+    """Aceeași alegere ca blocul Fed: evenimentul KXFEDDECISION deschis cu închiderea cea mai apropiată."""
+    ev = json.loads(get("https://api.elections.kalshi.com/trade-api/v2/events?series_ticker=KXFEDDECISION&status=open&with_nested_markets=true", ua=CHROME, tries=2))["events"]
+    best = None
+    now_s = dt.datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    for e in ev:
+        ms = [m for m in e.get("markets", []) if m.get("status") == "active"]
+        if not ms: continue
+        cl = min(m["close_time"] for m in ms)
+        if cl < now_s: continue
+        if best is None or cl < best[0]:
+            best = (cl, ms, e.get("event_ticker"))
+    if not best: raise RuntimeError("nicio piață deschisă")
+    return best
+
+def apply_fed_last_prob(fed, event_code, upper):
+    """Suprascrie doar fc.fed.prob din last_price_dollars. La eroare lasă valoarea existentă."""
+    if not isinstance(fed, dict): return
+    derived = None
+    try:
+        if event_code and upper is not None:
+            derived = f"KXFED-{event_code}-T{float(upper):.2f}"
+    except Exception as e:
+        log("ticker Fed derivat invalid", e)
+    todo = []
+    if derived: todo.append((derived, False))
+    if FED_FALLBACK not in [t for t, _fb in todo]:
+        todo.append((FED_FALLBACK, True))
+    now_s = dt.datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+    for ticker, is_fallback in todo:
+        try:
+            body = json.loads(get(f"https://api.elections.kalshi.com/trade-api/v2/markets/{ticker}", ua=CHROME, tries=2))
+            market = body.get("market") or body
+            lp = float(market.get("last_price_dollars") or 0)
+            close = market.get("close_time") or ""
+            if is_fallback and close and close < now_s:
+                log("ședința de rezervă a trecut", ticker, close); continue
+            if lp > 0:
+                fed["prob"] = round(lp, 2)
+                log("fed last_price", ticker, fed["prob"])
+                return
+            log("last_price gol", ticker, lp)
+        except Exception as e:
+            log("ticker Fed eșuat", ticker, e)
+    log("prob Fed neschimbat", fed.get("prob"))
+
 try: prev = json.load(open(OUT, encoding="utf-8"))
 except Exception: prev = {}
+
+def run_fed_only():
+    """Reîncarcă doar fc.fed.prob din Kalshi. Nu atinge FRED, TLT, mk, fx, cr."""
+    fed = (prev.get("fc") or {}).get("fed")
+    if not isinstance(fed, dict):
+        log("fc.fed lipsește, nu scriu"); return
+    before = fed.get("prob")
+    code = None
+    try:
+        _cl, _ms, event_ticker = nearest_open_fed_event()
+        code = fed_event_code(event_ticker)
+    except Exception as e:
+        log("eveniment Fed eșuat, folosesc data salvată", e)
+    if not code and fed.get("date"):
+        try: code = fed_code_from_date(fed["date"])
+        except Exception as e: log("dată Fed invalidă", e)
+    upper = fed_upper_bound((prev.get("fred") or {}).get("series") or {})
+    try:
+        apply_fed_last_prob(fed, code, upper)
+    except Exception as e:
+        log("fed-only eșuat (păstrez valoarea)", e); return
+    if fed.get("prob") == before:
+        log("prob neschimbat", before); return
+    prev.setdefault("fc", {})["fed"] = fed
+    raw = open(OUT, encoding="utf-8").read()
+    payload = json.dumps(prev, separators=(",", ":"), ensure_ascii=False)
+    if raw.endswith("\n"): payload += "\n"
+    with open(OUT, "w", encoding="utf-8") as f: f.write(payload)
+    log("scris", OUT, "prob", fed.get("prob"))
+
+if "--fed-only" in sys.argv:
+    try: run_fed_only()
+    except Exception as e: log("fed-only", e)
+    sys.exit(0)
 pfred = (prev.get("fred") or {}).get("series") or {}
 ptlt = prev.get("tlt") or {}
 
@@ -112,7 +214,6 @@ except Exception as e:
 # --- Forecast (consens) pentru următoarea publicare: Trading Economics (Consensus, apoi TEForecast), ForexFactory (săptămâna curentă), Kalshi (decizia Fed)
 # Nicio valoare inventată: doar ce apare publicat. Se păstrează ultima valoare bună doar pentru aceeași publicare viitoare.
 import html as _html, re as _re
-CHROME = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36"
 MONRO = ['ian','feb','mar','apr','mai','iun','iul','aug','sep','oct','nov','dec']
 MONEN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]  # etichete fc afișate pe pagină (EN)
 MONEN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
@@ -159,12 +260,15 @@ for key, (slug, name, ffname) in TE.items():
 try:
     ev = json.loads(get("https://api.elections.kalshi.com/trade-api/v2/events?series_ticker=KXFEDDECISION&status=open&with_nested_markets=true", ua=CHROME, tries=2))["events"]
     best = None
+    best_ticker = None
     for e in ev:
         ms = [m for m in e.get("markets", []) if m.get("status") == "active"]
         if not ms: continue
         cl = min(m["close_time"] for m in ms)
         if cl < now_utc.strftime("%Y-%m-%dT%H:%M:%SZ"): continue
-        if best is None or cl < best[0]: best = (cl, ms)
+        if best is None or cl < best[0]:
+            best = (cl, ms)
+            best_ticker = e.get("event_ticker")
     if not best: raise RuntimeError("nicio piață deschisă")
     def pr(m):
         b, a = float(m.get("yes_bid_dollars") or 0), float(m.get("yes_ask_dollars") or 0)
@@ -178,6 +282,13 @@ try:
     d = best[0][:10]
     fc["fed"] = {"date": d, "for": f"{MONEN[int(d[5:7]) - 1]} {int(d[8:])}, {d[:4]}", "move": mv, "prob": round(pr(top), 2),
                  "value": round(cur + mv, 2) if cur is not None else None, "src": "Kalshi (prediction market)"}
+    # Probabilitatea afișată e last_price al pieței „rămâne la pragul curent”, nu media bid/ask a deciziei.
+    # Move, data și eticheta (+0.25 pp, din move) rămân cele de mai sus.
+    code = fed_event_code(best_ticker) or fed_code_from_date(d)
+    try:
+        apply_fed_last_prob(fc["fed"], code, cur)
+    except Exception as e:
+        log("last_price Fed eșuat (păstrez prob):", e)
     log("forecast fed", fc["fed"])
 except Exception as e:
     log("Kalshi eșuat (păstrez ultima valoare):", e)
